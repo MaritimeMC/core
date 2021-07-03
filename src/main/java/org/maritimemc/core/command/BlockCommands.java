@@ -1,0 +1,74 @@
+/*
+ * Copyright © Minedroid Network 2021
+ *
+ * You may not use, distribute, or share this code under any circumstances
+ * without explicit permission from Minedroid Network. All source code and
+ * binaries are owned by Minedroid Network.
+ *
+ * All rights reserved.
+ */
+
+package org.maritimemc.core.command;
+
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.maritimemc.core.Module;
+
+/**
+ * Module to block use of some commands.
+ */
+public class BlockCommands implements Module {
+
+    @EventHandler
+    public void playerCommandPreProcess(PlayerCommandPreprocessEvent event) {
+
+        if (event.getMessage().equalsIgnoreCase("/plugins") || event.getMessage().equalsIgnoreCase("/pl")) {
+            event.setCancelled(true);
+            pluginMessage(event.getPlayer());
+        }
+
+        if (event.getMessage().equalsIgnoreCase("/help") || event.getMessage().equalsIgnoreCase("/?")) {
+            event.setCancelled(true);
+            helpMessage(event.getPlayer());
+        }
+
+        if (event.getMessage().equalsIgnoreCase("/ver") || event.getMessage().equalsIgnoreCase("/version") || event.getMessage().equalsIgnoreCase("/icanhasbukkit")) {
+            event.setCancelled(true);
+            pluginMessage(event.getPlayer());
+        }
+
+        if (event.getMessage().equalsIgnoreCase("/me")) {
+            event.setCancelled(true);
+            meMessage(event.getPlayer());
+        }
+
+    }
+
+    private void pluginMessage(Player player) {
+        player.sendMessage(color("&cYou are not allowed to do this."));
+    }
+
+    private void helpMessage(Player player) {
+
+        player.sendMessage(" ");
+        player.sendMessage(color(" &d&lMinedroid Network"));
+        player.sendMessage(" ");
+        player.sendMessage(color(" &eNeed help? Ask a staff member using"));
+        player.sendMessage(color(" &b/contact&e."));
+        player.sendMessage(" ");
+        player.sendMessage(color(" &eYou can visit our store and forums using"));
+        player.sendMessage(color(" &ethe link &bhttps://minedroid.network&e."));
+        player.sendMessage(" ");
+
+    }
+
+    private void meMessage(Player player) {
+        player.sendMessage(color("&cYou are not allowed to do this."));
+    }
+
+    private String color(String str) {
+        return ChatColor.translateAlternateColorCodes('&', str);
+    }
+}

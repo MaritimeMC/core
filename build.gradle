@@ -1,0 +1,35 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+    id 'java-library'
+}
+
+group 'org.maritimemc'
+version '1.0.0'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    compileOnly 'org.projectlombok:lombok:1.18.18'
+    annotationProcessor 'org.projectlombok:lombok:1.18.18'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+
+    compileOnly 'org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT'
+
+    implementation 'redis.clients:jedis:3.6.1'
+    implementation 'commons-io:commons-io:2.10.0'
+
+    implementation 'org.maritimemc:core-data:1.0.0'
+    implementation 'org.maritimemc:mt-datastores:1.0.0'
+
+    implementation ':bukkit-1.8-impl'
+}
+
+test {
+    useJUnitPlatform()
+}

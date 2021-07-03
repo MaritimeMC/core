@@ -1,0 +1,2 @@
+# core
+core for MaritimeMC.
