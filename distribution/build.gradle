@@ -1,7 +1,10 @@
+//file:noinspection GroovyAssignabilityCheck
 plugins {
     id 'com.github.johnrengelman.shadow' version '6.1.0'
     id 'maven-publish'
 }
+
+jar.enabled = false
 
 dependencies {
     compile rootProject
@@ -19,11 +22,13 @@ publishing {
                 password = project.hasProperty("githubPackagesAuth") ? githubPackagesAuth : System.getenv("GITHUB_TOKEN")
             }
         }
+
+        mavenLocal()
     }
 
     publications {
-        gpr(MavenPublication) {
-            from(components.java)
+        coreDistribution(MavenPublication) { publication ->
+            project.shadow.component(publication)
         }
     }
 }
