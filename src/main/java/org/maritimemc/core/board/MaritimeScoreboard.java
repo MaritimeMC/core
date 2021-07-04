@@ -36,7 +36,7 @@ public class MaritimeScoreboard {
     public MaritimeScoreboard(Player player) {
         this.player = player;
         this.scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
-        this.objective = scoreboard.registerNewObjective("minedroid", "dummy");
+        this.objective = scoreboard.registerNewObjective("maritime", "dummy");
 
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
 

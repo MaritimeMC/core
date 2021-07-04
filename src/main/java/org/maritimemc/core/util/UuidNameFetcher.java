@@ -1,13 +1,3 @@
-/*
- * Copyright © Minedroid Network 2020
- *
- * You may not use, distribute, or share this code under any circumstances
- * without explicit permission from Minedroid Network. All source code and
- * binaries are owned by Minedroid Network.
- *
- * All rights reserved.
- */
-
 package org.maritimemc.core.util;
 
 import com.google.gson.JsonArray;
@@ -17,11 +7,7 @@ import org.apache.commons.io.IOUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.URL;
-import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;

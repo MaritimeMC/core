@@ -1,7 +1,5 @@
 package org.maritimemc.core.db.messaging;
 
-import org.maritimemc.core.Module;
-
 /**
  * A channel over which a database message is sent.
  * <p>
@@ -19,7 +17,7 @@ public class MessageChannel {
     }
 
     public String toChannel() {
-        return "minedroid:" + module + ":" + id;
+        return "maritime:" + module + ":" + id;
     }
 
 }

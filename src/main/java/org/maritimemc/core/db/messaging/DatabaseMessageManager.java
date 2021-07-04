@@ -53,7 +53,7 @@ public class DatabaseMessageManager implements Module {
     public void listen() {
         Executors.newSingleThreadExecutor().execute(() -> {
             try (Jedis j = redisDatastore.getResource()) {
-                j.psubscribe(new MessageListener(this), "minedroid:*");
+                j.psubscribe(new MessageListener(this), "maritime:*");
             }
         });
     }
