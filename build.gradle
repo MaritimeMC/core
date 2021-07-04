@@ -1,8 +1,4 @@
 //file:noinspection GroovyAssignabilityCheck
-plugins {
-    id 'maven-publish'
-}
-
 allprojects {
     apply plugin: 'java'
 
@@ -41,23 +37,4 @@ dependencies {
 
     implementation 'org.maritimemc:core-data:1.0.0'
     implementation 'org.maritimemc:mt-datastores:1.0.0'
-}
-
-publishing {
-    repositories {
-        maven {
-            url = uri("https://maven.pkg.github.com/MaritimeMC/core")
-
-            credentials {
-                username = project.hasProperty("githubPackagesUser") ? githubPackagesUser : System.getenv("GITHUB_ACTOR")
-                password = project.hasProperty("githubPackagesAuth") ? githubPackagesAuth : System.getenv("GITHUB_TOKEN")
-            }
-        }
-    }
-
-    publications {
-        gpr(MavenPublication) {
-            from(components.java)
-        }
-    }
 }

@@ -1,5 +1,6 @@
 plugins {
     id 'com.github.johnrengelman.shadow' version '6.1.0'
+    id 'maven-publish'
 }
 
 dependencies {
@@ -8,6 +9,21 @@ dependencies {
     implementation project(':bukkit-1.17-impl')
 }
 
-shadowJar {
-    setArchivesBaseName 'core-distrib'
+publishing {
+    repositories {
+        maven {
+            url = uri("https://maven.pkg.github.com/MaritimeMC/core")
+
+            credentials {
+                username = project.hasProperty("githubPackagesUser") ? githubPackagesUser : System.getenv("GITHUB_ACTOR")
+                password = project.hasProperty("githubPackagesAuth") ? githubPackagesAuth : System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+
+    publications {
+        gpr(MavenPublication) {
+            from(components.java)
+        }
+    }
 }
