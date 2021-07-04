@@ -13,12 +13,10 @@ import org.maritimemc.core.db.messaging.MessageChannel;
 import org.maritimemc.core.perm.PermissionManager;
 import org.maritimemc.core.perm.RemotePermissionManager;
 import org.maritimemc.core.server.ServerDataManager;
-import org.maritimemc.core.util.UtilLog;
 import org.maritimemc.data.player.PlayerProfile;
 import org.maritimemc.db.RedisDatastore;
 import redis.clients.jedis.Jedis;
 
-import javax.swing.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -46,7 +44,7 @@ public class ProfileManager implements Module {
 
         registerEvents(this);
 
-        databaseMessageManager.register(RELOAD_PROFILE_CHANNEL, (s) -> reloadCachedProfile(UUID.fromString(s)));
+        databaseMessageManager.registerSimple(RELOAD_PROFILE_CHANNEL, (s) -> reloadCachedProfile(UUID.fromString(s)));
     }
 
     @EventHandler

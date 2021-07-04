@@ -9,7 +9,7 @@ import java.util.function.Consumer;
  * An implementation of {@link MessageFormat} used for simple String messages
  * holding one value.
  *
- * @see DatabaseMessageManager#register(MessageChannel, Consumer)
+ * @see DatabaseMessageManager#registerSimple(MessageChannel, Consumer)
  */
 public class StringMessageFormat implements MessageFormat {
 

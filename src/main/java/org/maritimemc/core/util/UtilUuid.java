@@ -10,6 +10,10 @@ public class UtilUuid {
     }
 
     public static UUID fromBytes(final byte[] bytes) {
+        if (bytes == null) {
+            return null;
+        }
+
         if (bytes.length < 2) {
             throw new IllegalArgumentException("Byte array too small.");
         }

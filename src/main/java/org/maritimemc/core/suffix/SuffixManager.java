@@ -34,7 +34,7 @@ public class SuffixManager implements Module {
         this.suffixCache = new HashMap<>();
 
         DatabaseMessageManager databaseMessageManager = Locator.locate(DatabaseMessageManager.class);
-        databaseMessageManager.register(SUFFIX_RELOAD_CHANNEL, (s) -> loadSuffixProfile(UUID.fromString(s)));
+        databaseMessageManager.registerSimple(SUFFIX_RELOAD_CHANNEL, (s) -> loadSuffixProfile(UUID.fromString(s)));
 
         commandCenter.register(new CommandSuffix("suffix"), new CommandSuffixManage("suffixmanage"));
 
