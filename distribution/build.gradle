@@ -1,0 +1,13 @@
+plugins {
+    id 'com.github.johnrengelman.shadow' version '6.1.0'
+}
+
+dependencies {
+    compile rootProject
+    implementation project(':bukkit-1.8-impl')
+    implementation project(':bukkit-1.17-impl')
+}
+
+shadowJar {
+    setArchivesBaseName 'core-distrib'
+}
