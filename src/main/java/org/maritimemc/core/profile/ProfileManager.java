@@ -12,7 +12,10 @@ import org.maritimemc.core.db.messaging.DatabaseMessageManager;
 import org.maritimemc.core.db.messaging.MessageChannel;
 import org.maritimemc.core.perm.PermissionManager;
 import org.maritimemc.core.perm.RemotePermissionManager;
+import org.maritimemc.core.profile.event.ProfileReloadEvent;
 import org.maritimemc.core.server.ServerDataManager;
+import org.maritimemc.core.thread.ThreadPool;
+import org.maritimemc.core.util.UtilServer;
 import org.maritimemc.data.player.PlayerProfile;
 import org.maritimemc.db.RedisDatastore;
 import redis.clients.jedis.Jedis;
@@ -53,6 +56,9 @@ public class ProfileManager implements Module {
 
             PlayerProfile profile = getFromRedis(event.getPlayer().getUniqueId());
             if (profile != null) {
+                profile.setServerName(serverDataManager.getServerName());
+                ThreadPool.ASYNC_POOL.execute(() -> loadIntoRedis(profile.getUuid(), profile));
+
                 profileCache.put(event.getPlayer().getUniqueId(), profile);
             } else {
                 loadNewProfile(event.getPlayer());
@@ -109,11 +115,12 @@ public class ProfileManager implements Module {
         );
 
         profileCache.put(player.getUniqueId(), profile);
-        loadIntoRedis(player.getUniqueId(), profile);
+        ThreadPool.ASYNC_POOL.execute(() -> loadIntoRedis(profile.getUuid(), profile));
     }
 
     public void reloadCachedProfile(UUID uuid) {
         if (Bukkit.getPlayer(uuid) != null) {
+            Bukkit.getPluginManager().callEvent(new ProfileReloadEvent(uuid));
             loadNewProfile(Bukkit.getPlayer(uuid));
         }
     }
