@@ -1,7 +1,5 @@
 rootProject.name = 'core'
 include 'bukkit-1.8-impl'
 include 'bukkit-1.17-impl'
-
-include 'distribution'
-project(':distribution').name = 'core-distribution'
+include 'nms-abstraction'
 

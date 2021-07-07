@@ -1,6 +1,7 @@
 package org.maritimemc.core.versioning;
 
 import org.bukkit.Bukkit;
+import org.maritimemc.abstraction.INmsHandler;
 import org.maritimemc.core.util.UtilLog;
 
 import java.util.regex.Pattern;

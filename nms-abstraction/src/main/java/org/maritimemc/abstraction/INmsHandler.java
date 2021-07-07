@@ -1,4 +1,4 @@
-package org.maritimemc.core.versioning;
+package org.maritimemc.abstraction;
 
 import org.bukkit.entity.Player;
 

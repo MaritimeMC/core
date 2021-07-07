@@ -6,10 +6,10 @@ import net.minecraft.server.v1_8_R3.IChatBaseComponent;
 import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerListHeaderFooter;
 import net.minecraft.server.v1_8_R3.PacketPlayOutTitle;
+import org.bukkit.ChatColor;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
-import org.maritimemc.core.Formatter;
-import org.maritimemc.core.versioning.INmsHandler;
+import org.maritimemc.abstraction.INmsHandler;
 
 import java.lang.reflect.Field;
 
@@ -17,8 +17,8 @@ public class NmsHandler implements INmsHandler {
 
     @Override
     public void sendTitle(Player player, String title, String subtitle, int fadeIn, int hold, int fadeOut) {
-        title = Formatter.format(title);
-        subtitle = Formatter.format(subtitle);
+        title = ChatColor.translateAlternateColorCodes('&', title);
+        subtitle = ChatColor.translateAlternateColorCodes('&', subtitle);
 
         JsonObject titleObj = new JsonObject();
         titleObj.addProperty("text", title);
@@ -43,8 +43,7 @@ public class NmsHandler implements INmsHandler {
 
     @Override
     public void sendActionBar(Player player, String message) {
-        player.spigot().sendMessage();
-        message = Formatter.format(message);
+        message = ChatColor.translateAlternateColorCodes('&', message);
 
         JsonObject object = new JsonObject();
         object.addProperty("text", message);
