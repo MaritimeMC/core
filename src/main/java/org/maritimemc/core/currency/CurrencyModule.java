@@ -67,6 +67,10 @@ public class CurrencyModule implements Module {
             if (gameId == -1) {
                 int globalCurrency = currencyDataManager.getGlobalCurrency(uuid, currency);
 
+                if (globalCurrency == -1) {
+                    globalCurrency = 0;
+                }
+
                 CachedCurrencyData cachedCurrencyData = new CachedCurrencyData();
                 cachedCurrencyData.setCurrency(currency, globalCurrency);
 
@@ -74,6 +78,10 @@ public class CurrencyModule implements Module {
                 return globalCurrency;
             } else {
                 int localCurrency = currencyDataManager.getLocalCurrency(uuid, currency, gameId);
+
+                if (localCurrency == -1) {
+                    localCurrency = 0;
+                }
 
                 CachedCurrencyData cachedCurrencyData = new CachedCurrencyData();
                 cachedCurrencyData.setCurrency(currency, gameId, localCurrency);
