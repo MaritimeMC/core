@@ -45,7 +45,7 @@ allprojects {
  * Any dependencies required to compile core, but are either present through Spigot or exported
  * in core as a subproject should be declared as compileOnly.
  * Any dependencies required to compile core, which are not present within core's export and
- * not present on the classpath of Spigot should be declared as implementation. This way,
+ * not present on the classpath of Spigot should be declared as compile. This way,
  * the project utilising core will export this dependency.
  */
 
@@ -56,13 +56,13 @@ dependencies {
 
     compileOnly 'org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT'
 
-    implementation 'redis.clients:jedis:3.6.1'
-    implementation 'commons-io:commons-io:2.10.0'
+    compile 'redis.clients:jedis:3.6.1'
+    compile 'commons-io:commons-io:2.10.0'
 
-    implementation 'org.maritimemc:core-data:1.0.0'
-    implementation 'org.maritimemc:mt-datastores:1.0.0'
+    compile 'org.maritimemc:core-data:1.0.0'
+    compile 'org.maritimemc:mt-datastores:1.0.0'
 
-    implementation "com.warrenstrange:googleauth:1.5.0"
+    compile "com.warrenstrange:googleauth:1.5.0"
 }
 
 /*
@@ -92,6 +92,10 @@ publishing {
     publications {
         core(MavenPublication) {
             from components.java
+
+            pom.withXml {
+
+            }
         }
     }
 }
