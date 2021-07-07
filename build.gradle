@@ -7,7 +7,7 @@ allprojects {
     apply plugin: 'java'
 
     group 'org.maritimemc'
-    version '1.0.0'
+    version '1.0.1'
 
     repositories {
         mavenCentral()
@@ -60,7 +60,7 @@ dependencies {
     compile 'commons-io:commons-io:2.10.0'
 
     compile 'org.maritimemc:core-data:1.0.0'
-    compile 'org.maritimemc:mt-datastores:1.0.0'
+    compile 'org.maritimemc:mt-datastores:1.0.1'
 
     compile "com.warrenstrange:googleauth:1.5.0"
 }
