@@ -26,7 +26,7 @@ public class ReportDataManager {
     private static final String UPDATE_REPORT_STATUS = "UPDATE user_reports SET reportStatus = ? WHERE id = ?;";
     private static final String UPDATE_RESOLUTION = "UPDATE user_reports SET resolved = ?, resolvedTime = ?, resolvedBy = ? WHERE id = ?;";
     private static final String UNDO_RESOLUTION = "UPDATE user_reports SET resolved = 0, resolvedTime = NULL, resolvedBy = NULL WHERE id = ?;";
-    private static final String GET_OPEN_REPORTS = "SELECT * FROM user_reports WHERE resolved IS FALSE;";
+    private static final String GET_OPEN_REPORTS = "SELECT * FROM user_reports WHERE resolved IS NOT TRUE;";
 
     private final SqlDatastore sqlDatastore = Locator.locate(SqlModule.class);
 

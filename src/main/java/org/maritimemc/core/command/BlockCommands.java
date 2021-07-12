@@ -5,6 +5,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.maritimemc.core.Module;
+import org.maritimemc.core.util.UtilVersion;
+import org.maritimemc.core.versioning.VersionHandler;
+import org.maritimemc.data.versioning.ServerVersion;
 
 /**
  * Module to block use of some commands.
@@ -14,24 +17,46 @@ public class BlockCommands implements Module {
     @EventHandler
     public void playerCommandPreProcess(PlayerCommandPreprocessEvent event) {
 
-        if (event.getMessage().equalsIgnoreCase("/plugins") || event.getMessage().equalsIgnoreCase("/pl")) {
-            event.setCancelled(true);
-            pluginMessage(event.getPlayer());
-        }
+        if (UtilVersion.getVersion() == ServerVersion._18) {
+            if (event.getMessage().equalsIgnoreCase("plugins") || event.getMessage().equalsIgnoreCase("pl")) {
+                event.setCancelled(true);
+                pluginMessage(event.getPlayer());
+            }
 
-        if (event.getMessage().equalsIgnoreCase("/help") || event.getMessage().equalsIgnoreCase("/?")) {
-            event.setCancelled(true);
-            helpMessage(event.getPlayer());
-        }
+            if (event.getMessage().equalsIgnoreCase("help") || event.getMessage().equalsIgnoreCase("?")) {
+                event.setCancelled(true);
+                helpMessage(event.getPlayer());
+            }
 
-        if (event.getMessage().equalsIgnoreCase("/ver") || event.getMessage().equalsIgnoreCase("/version") || event.getMessage().equalsIgnoreCase("/icanhasbukkit")) {
-            event.setCancelled(true);
-            pluginMessage(event.getPlayer());
-        }
+            if (event.getMessage().equalsIgnoreCase("ver") || event.getMessage().equalsIgnoreCase("version") || event.getMessage().equalsIgnoreCase("icanhasbukkit")) {
+                event.setCancelled(true);
+                pluginMessage(event.getPlayer());
+            }
 
-        if (event.getMessage().equalsIgnoreCase("/me")) {
-            event.setCancelled(true);
-            meMessage(event.getPlayer());
+            if (event.getMessage().equalsIgnoreCase("me")) {
+                event.setCancelled(true);
+                meMessage(event.getPlayer());
+            }   
+        } else {
+            if (event.getMessage().equalsIgnoreCase("/plugins") || event.getMessage().equalsIgnoreCase("/pl")) {
+                event.setCancelled(true);
+                pluginMessage(event.getPlayer());
+            }
+
+            if (event.getMessage().equalsIgnoreCase("/help") || event.getMessage().equalsIgnoreCase("/?")) {
+                event.setCancelled(true);
+                helpMessage(event.getPlayer());
+            }
+
+            if (event.getMessage().equalsIgnoreCase("/ver") || event.getMessage().equalsIgnoreCase("/version") || event.getMessage().equalsIgnoreCase("/icanhasbukkit")) {
+                event.setCancelled(true);
+                pluginMessage(event.getPlayer());
+            }
+
+            if (event.getMessage().equalsIgnoreCase("/me")) {
+                event.setCancelled(true);
+                meMessage(event.getPlayer());
+            }
         }
 
     }
@@ -46,10 +71,10 @@ public class BlockCommands implements Module {
         player.sendMessage(color(" &d&lMinedroid Network"));
         player.sendMessage(" ");
         player.sendMessage(color(" &eNeed help? Ask a staff member using"));
-        player.sendMessage(color(" &b/contact&e."));
+        player.sendMessage(color(" &bcontact&e."));
         player.sendMessage(" ");
         player.sendMessage(color(" &eYou can visit our store and forums using"));
-        player.sendMessage(color(" &ethe link &bhttps://minedroid.network&e."));
+        player.sendMessage(color(" &ethe link &bhttps:minedroid.network&e."));
         player.sendMessage(" ");
 
     }

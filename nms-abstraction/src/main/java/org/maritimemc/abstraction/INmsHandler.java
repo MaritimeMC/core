@@ -1,5 +1,6 @@
 package org.maritimemc.abstraction;
 
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 public interface INmsHandler {
@@ -10,4 +11,5 @@ public interface INmsHandler {
 
     void sendTabHeaderFooter(Player player, String header, String footer);
 
+    Sound getNotePling();
 }

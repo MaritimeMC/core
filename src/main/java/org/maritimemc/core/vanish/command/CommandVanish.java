@@ -12,17 +12,20 @@ import java.util.List;
 
 public class CommandVanish extends CommandBase {
 
-    private final VanishManager vanishManager = Locator.locate(VanishManager.class);
+    private final VanishManager vanishManager;
 
     /**
      * Class constructor
      *
      * @param name The name of this command.
+     * @param vanishManager
      */
-    public CommandVanish(String name) {
+    public CommandVanish(String name, VanishManager vanishManager) {
         super(name);
         setAliases(Arrays.asList("incognito", "v"));
         setRequiredPermission(VanishManager.VanishPerm.USE_VANISH);
+
+        this.vanishManager = vanishManager;
     }
 
     @Override

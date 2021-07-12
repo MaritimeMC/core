@@ -19,12 +19,14 @@ import java.util.UUID;
  */
 public class UuidNameFetcher {
 
-    private static Map<String, UUID> cache = new HashMap<>();
+    private static final Map<String, UUID> cache = new HashMap<>();
 
     @SneakyThrows
     public static UUID fetchUuid(String name) {
-        if (cache.containsKey(name.toLowerCase())) {
-            return cache.get(name.toLowerCase());
+        for (String s : cache.keySet()) {
+            if (s.equalsIgnoreCase(name)) {
+                return cache.get(s);
+            }
         }
 
         Player player = Bukkit.getPlayer(name);
@@ -55,7 +57,7 @@ public class UuidNameFetcher {
             }
 
             UUID uuid = UUID.fromString(builder.toString());
-            cache.put(name.toLowerCase(), uuid);
+            cache.put(name, uuid);
 
             return uuid;
         }

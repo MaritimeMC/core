@@ -17,17 +17,20 @@ import static org.maritimemc.core.service.Locator.locate;
 
 public class CommandVanishForce extends CommandBase {
 
-    private final VanishManager vanishManager = locate(VanishManager.class);
+    private final VanishManager vanishManager;
 
     /**
      * Class constructor
      *
      * @param name The name of this command.
+     * @param vanishManager
      */
-    public CommandVanishForce(String name) {
+    public CommandVanishForce(String name, VanishManager vanishManager) {
         super(name);
         setAliases(Collections.singletonList("vf"));
         setRequiredPermission(VanishManager.VanishPerm.VANISH_ADMIN);
+
+        this.vanishManager = vanishManager;
     }
 
     @Override

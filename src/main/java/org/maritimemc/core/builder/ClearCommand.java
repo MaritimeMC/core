@@ -1,11 +1,10 @@
-package org.maritimemc.core.admin.command;
+package org.maritimemc.core.builder;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.maritimemc.core.Formatter;
-import org.maritimemc.core.admin.Administrate;
 import org.maritimemc.core.command.CommandBase;
 
 import java.util.Arrays;
@@ -17,7 +16,7 @@ public class ClearCommand extends CommandBase {
     public ClearCommand(String name) {
         super(name);
         setAliases(Arrays.asList("clearinv", "ci", "cl"));
-        setRequiredPermission(Administrate.AdministratePerm.CLEAR_COMMAND);
+        setRequiredPermission(BuilderModule.BuildPerm.CLEAR_COMMAND);
     }
 
     @Override

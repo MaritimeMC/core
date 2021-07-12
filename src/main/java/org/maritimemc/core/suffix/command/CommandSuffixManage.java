@@ -22,14 +22,16 @@ import java.util.stream.Collectors;
 
 public class CommandSuffixManage extends CommandBase {
 
-    private final SuffixManager suffixManager = Locator.locate(SuffixManager.class);
+    private final SuffixManager suffixManager;
     private final DatabaseMessageManager databaseMessageManager = Locator.locate(DatabaseMessageManager.class);
 
-    public CommandSuffixManage(String name) {
+    public CommandSuffixManage(String name, SuffixManager suffixManager) {
         super(name);
         setConsoleExecutable(true);
         setExecuteAsync(true);
         setRequiredPermission(SuffixManager.SuffixPerm.SUFFIX_MANAGE);
+
+        this.suffixManager = suffixManager;
     }
 
     @Override
@@ -122,7 +124,7 @@ public class CommandSuffixManage extends CommandBase {
         } else if (args.length == 2) {
             return Bukkit.getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList());
         } else if (args.length == 3) {
-            return Arrays.stream(PermissionGroup.values()).map(PermissionGroup::name).collect(Collectors.toList());
+            return Arrays.stream(Suffix.values()).map(Suffix::name).collect(Collectors.toList());
         }
 
         return null;

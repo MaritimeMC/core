@@ -89,6 +89,12 @@ public class ProfileManager implements Module {
         }
     }
 
+    public boolean isOnlineOnNetwork(UUID uuid) {
+        try (Jedis j = redisDatastore.getResource()) {
+            return j.exists(CLIENT_PREFIX + ":" + uuid.toString());
+        }
+    }
+
     public void loadIntoRedis(UUID uuid, PlayerProfile profile) {
         try (Jedis j = redisDatastore.getResource()) {
             String s = ConstantGson.GSON.toJson(profile);

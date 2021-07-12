@@ -65,6 +65,13 @@ public class DatabaseMessageManager implements Module {
         );
     }
 
+    public <T extends MessageFormat> void register(MessageChannel channel, Class<T> dataFormatClass, Consumer<T> consumer) {
+        registeredChannels.put(
+                channel.toChannel(),
+                new MessageResponse<>(dataFormatClass, data -> consumer.accept((T) data))
+        );
+    }
+
     public <T extends MessageFormat> void registerStringCallback(MessageChannel channel, Callback callback) {
         registeredChannels.put(
                 channel.toChannel(),

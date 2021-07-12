@@ -3,15 +3,18 @@ package org.maritimemc.core.suffix;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerLoginEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.maritimemc.core.Module;
 import org.maritimemc.core.command.CommandCenter;
 import org.maritimemc.core.db.messaging.DatabaseMessageManager;
 import org.maritimemc.core.db.messaging.MessageChannel;
+import org.maritimemc.core.perm.PermissionManager;
 import org.maritimemc.core.service.Locator;
 import org.maritimemc.core.suffix.command.CommandSuffix;
 import org.maritimemc.core.suffix.command.CommandSuffixManage;
 import org.maritimemc.core.thread.ThreadPool;
 import org.maritimemc.data.perm.Permission;
+import org.maritimemc.data.perm.PermissionGroup;
 import org.maritimemc.data.player.Suffix;
 
 import java.util.HashMap;
@@ -25,8 +28,6 @@ public class SuffixManager implements Module {
 
     private final SuffixDataManager suffixDataManager;
 
-    private final CommandCenter commandCenter = Locator.locate(CommandCenter.class);
-
     private final Map<UUID, SuffixProfile> suffixCache;
 
     public SuffixManager() {
@@ -36,7 +37,11 @@ public class SuffixManager implements Module {
         DatabaseMessageManager databaseMessageManager = Locator.locate(DatabaseMessageManager.class);
         databaseMessageManager.registerSimple(SUFFIX_RELOAD_CHANNEL, (s) -> loadSuffixProfile(UUID.fromString(s)));
 
-        commandCenter.register(new CommandSuffix("suffix"), new CommandSuffixManage("suffixmanage"));
+        CommandCenter commandCenter = Locator.locate(CommandCenter.class);
+        commandCenter.register(new CommandSuffix("suffix", this), new CommandSuffixManage("suffixmanage", this));
+
+        PermissionManager permissionManager = Locator.locate(PermissionManager.class);
+        permissionManager.addPermission(PermissionGroup.ADMINISTRATOR, SuffixPerm.SUFFIX_MANAGE, true);
 
         Module.registerEvents(this);
     }
@@ -66,6 +71,11 @@ public class SuffixManager implements Module {
         loadSuffixProfile(event.getPlayer());
     }
 
+    @EventHandler
+    public void quit(PlayerQuitEvent event) {
+        suffixCache.remove(event.getPlayer().getUniqueId());
+    }
+
     private void loadSuffixProfile(Player player) {
         loadSuffixProfile(player.getUniqueId());
     }
@@ -81,7 +91,10 @@ public class SuffixManager implements Module {
         SuffixProfile suffixProfile = suffixCache.get(uuid);
 
         if (suffixProfile == null) {
-            return suffixDataManager.getActiveSuffix(uuid);
+            loadSuffixProfile(uuid);
+            suffixProfile = suffixCache.get(uuid);
+
+            assert suffixProfile != null;
         }
 
         return suffixProfile.getActiveSuffix();
@@ -91,7 +104,10 @@ public class SuffixManager implements Module {
         SuffixProfile suffixProfile = suffixCache.get(uuid);
 
         if (suffixProfile == null) {
-            return suffixDataManager.getSuffixes(uuid);
+            loadSuffixProfile(uuid);
+            suffixProfile = suffixCache.get(uuid);
+
+            assert suffixProfile != null;
         }
 
         return suffixProfile.getSuffixSet();
@@ -105,6 +121,7 @@ public class SuffixManager implements Module {
 
     public void removeActiveSuffix(UUID uuid) {
         suffixCache.get(uuid).setActiveSuffix(null);
+
         ThreadPool.ASYNC_POOL.execute(() -> suffixDataManager.removeActiveSuffix(uuid));
     }
 }

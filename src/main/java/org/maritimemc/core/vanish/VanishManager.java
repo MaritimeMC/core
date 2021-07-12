@@ -6,12 +6,14 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.maritimemc.core.Formatter;
 import org.maritimemc.core.Module;
 import org.maritimemc.core.command.CommandCenter;
 import org.maritimemc.core.perm.PermissionManager;
 import org.maritimemc.core.profile.ProfileManager;
 import org.maritimemc.core.vanish.command.CommandVanish;
 import org.maritimemc.core.vanish.command.CommandVanishForce;
+import org.maritimemc.core.vanish.event.JoinMessageBroadcastEvent;
 import org.maritimemc.core.vanish.event.VanishShowPlayerEvent;
 import org.maritimemc.data.perm.Permission;
 import org.maritimemc.data.perm.PermissionGroup;
@@ -40,7 +42,7 @@ public class VanishManager implements Module {
         permissionManager.addPermission(PermissionGroup.HELPER, VanishPerm.USE_VANISH, true);
         permissionManager.addPermission(PermissionGroup.ADMINISTRATOR, VanishPerm.VANISH_ADMIN, true);
 
-        commandCenter.register(new CommandVanish("vanish"), new CommandVanishForce("vanishforce"));
+        commandCenter.register(new CommandVanish("vanish", this), new CommandVanishForce("vanishforce", this));
 
         Module.registerEvents(this);
     }
@@ -88,7 +90,7 @@ public class VanishManager implements Module {
                 }
 
                 player.sendMessage(" ");
-                player.sendMessage(" &3&lYou are now vanished. &7(Carried from last login)");
+                player.sendMessage(Formatter.format(" &3&lYou are now vanished. &7(Carried from last login)"));
                 player.sendMessage(" ");
             }
 
@@ -105,6 +107,13 @@ public class VanishManager implements Module {
     }
 
     @EventHandler
+    public void joinMessage(JoinMessageBroadcastEvent event) {
+        if (localVanishedPlayers.contains(event.getPlayer().getUniqueId())) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
     public void quit(PlayerQuitEvent event) {
         localVanishedPlayers.remove(event.getPlayer().getUniqueId());
     }
@@ -113,7 +122,7 @@ public class VanishManager implements Module {
         localVanishedPlayers.remove(player.getUniqueId());
 
         player.sendMessage(" ");
-        player.sendMessage(" &3&lYou are no longer vanished." + ((!reason.equals("") ? " &7(" + reason + ")" : "")));
+        player.sendMessage(Formatter.format(" &3&lYou are no longer vanished." + ((!reason.equals("") ? " &7(" + reason + ")" : ""))));
         player.sendMessage(" ");
 
         VanishShowPlayerEvent event = new VanishShowPlayerEvent(player);
@@ -134,7 +143,7 @@ public class VanishManager implements Module {
         localVanishedPlayers.add(player.getUniqueId());
 
         player.sendMessage(" ");
-        player.sendMessage(" &3&lYou are now vanished." + ((!reason.equals("") ? " &7(" + reason + ")" : "")));
+        player.sendMessage(Formatter.format(" &3&lYou are now vanished." + ((!reason.equals("") ? " &7(" + reason + ")" : ""))));
         player.sendMessage(" ");
 
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {

@@ -1,11 +1,10 @@
-package org.maritimemc.core.admin.command;
+package org.maritimemc.core.announce;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.maritimemc.core.Formatter;
-import org.maritimemc.core.admin.Administrate;
 import org.maritimemc.core.command.CommandBase;
 import org.maritimemc.core.db.messaging.DatabaseMessageManager;
 import org.maritimemc.core.db.messaging.format.StringMessageFormat;
@@ -28,7 +27,7 @@ public class AnnounceCommand extends CommandBase {
         super(name);
         setConsoleExecutable(true);
         setExecuteAsync(true);
-        setRequiredPermission(Administrate.AdministratePerm.ANNOUNCE_COMMAND_BASE);
+        setRequiredPermission(AnnouncementModule.AnnouncePerm.ANNOUNCE_COMMAND_BASE);
     }
 
     @Override
@@ -49,7 +48,7 @@ public class AnnounceCommand extends CommandBase {
 
             if (sender instanceof Player) {
                 Player player = (Player) sender;
-                if (!permissionManager.hasPermission(profileManager.getCached(player), Administrate.AdministratePerm.ANNOUNCE_GLOBAL)) {
+                if (!permissionManager.hasPermission(profileManager.getCached(player), AnnouncementModule.AnnouncePerm.ANNOUNCE_GLOBAL)) {
                     sender.sendMessage(Formatter.format("Announce", "You do not have access to that announcement type."));
                     return;
                 }
@@ -66,11 +65,12 @@ public class AnnounceCommand extends CommandBase {
 
             String strMessage = ChatColor.translateAlternateColorCodes('&', message.toString());
 
-            databaseMessageManager.send(Administrate.ANNOUNCE_GLOBAL_CHANNEL, new StringMessageFormat(strMessage));
+            databaseMessageManager.send(AnnouncementModule.ANNOUNCE_GLOBAL_CHANNEL, new StringMessageFormat(strMessage));
+
         } else if (args[0].equalsIgnoreCase("local")) {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
-                if (!permissionManager.hasPermission(profileManager.getCached(player.getUniqueId()), Administrate.AdministratePerm.ANNOUNCE_LOCAL)) {
+                if (!permissionManager.hasPermission(profileManager.getCached(player.getUniqueId()), AnnouncementModule.AnnouncePerm.ANNOUNCE_LOCAL)) {
                     sender.sendMessage(Formatter.format("Announce", "You do not have access to that announcement type."));
                     return;
                 }
@@ -92,7 +92,10 @@ public class AnnounceCommand extends CommandBase {
              */
             Bukkit.broadcastMessage(Formatter.format("&2Local Announcement", strMessage));
 
-            Bukkit.getOnlinePlayers().forEach((player) -> VersionHandler.NMS_HANDLER.sendTitle(player, "§2§lLocal Announcement", strMessage, 13, 80, 13));
+            Bukkit.getOnlinePlayers().forEach((player) -> {
+                VersionHandler.NMS_HANDLER.sendTitle(player, "&2&lLocal Announcement", strMessage, 13, 80, 13);
+                player.playSound(player.getLocation(), VersionHandler.NMS_HANDLER.getNotePling(), 7, 5);
+            });
         }
 
     }

@@ -5,6 +5,7 @@ import org.maritimemc.core.command.CommandCenter;
 import org.maritimemc.core.perm.PermissionManager;
 import org.maritimemc.core.perm.group.command.CommandRank;
 import org.maritimemc.data.perm.Permission;
+import org.maritimemc.data.perm.PermissionGroup;
 
 import static org.maritimemc.core.service.Locator.locate;
 
@@ -14,6 +15,7 @@ public class GroupManagementModule implements Module {
     private final CommandCenter commandCenter = locate(CommandCenter.class);
 
     public GroupManagementModule() {
+        permissionManager.addPermission(PermissionGroup.ADMINISTRATOR, GroupPerm.RANK_COMMAND, true);
         commandCenter.register(new CommandRank("rank"));
     }
 

@@ -1,5 +1,7 @@
 package org.maritimemc.core.suffix.command;
 
+import com.google.common.eventbus.AllowConcurrentEvents;
+import lombok.AllArgsConstructor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.maritimemc.core.Formatter;
@@ -13,9 +15,10 @@ import org.maritimemc.data.player.Suffix;
 
 import java.util.UUID;
 
+@AllArgsConstructor
 public class SuffixGUI {
 
-    private final SuffixManager suffixManager = Locator.locate(SuffixManager.class);
+    private final SuffixManager suffixManager;
 
     public void open(Player player) {
 

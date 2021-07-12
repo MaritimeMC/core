@@ -7,6 +7,7 @@ import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerListHeaderFooter;
 import net.minecraft.server.v1_8_R3.PacketPlayOutTitle;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.maritimemc.abstraction.INmsHandler;
@@ -66,6 +67,11 @@ public class NmsHandler implements INmsHandler {
         footerField.set(packet, footerJson);
 
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+    }
+
+    @Override
+    public Sound getNotePling() {
+        return Sound.NOTE_PLING;
     }
 
 }

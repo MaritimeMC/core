@@ -4,6 +4,7 @@ import lombok.SneakyThrows;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.maritimemc.abstraction.INmsHandler;
 
@@ -31,6 +32,11 @@ public class NmsHandler implements INmsHandler {
         footer = ChatColor.translateAlternateColorCodes('&', footer);
 
         player.setPlayerListHeaderFooter(header, footer);
+    }
+
+    @Override
+    public Sound getNotePling() {
+        return Sound.BLOCK_NOTE_BLOCK_PLING;
     }
 
 }

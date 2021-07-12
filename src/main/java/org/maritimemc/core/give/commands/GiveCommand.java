@@ -1,4 +1,4 @@
-package org.maritimemc.core.admin.command;
+package org.maritimemc.core.give.commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -7,8 +7,8 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.maritimemc.core.Formatter;
-import org.maritimemc.core.admin.Administrate;
 import org.maritimemc.core.command.CommandBase;
+import org.maritimemc.core.give.Give;
 import org.maritimemc.core.util.ItemBuilder;
 
 import java.util.Arrays;
@@ -19,7 +19,7 @@ public class GiveCommand extends CommandBase {
     public GiveCommand(String name) {
         super(name);
         setAliases(Arrays.asList("g", "i", "item", "giveitem"));
-        setRequiredPermission(Administrate.AdministratePerm.GIVE_COMMAND);
+        setRequiredPermission(Give.GivePerm.USE_GIVE);
     }
 
     @Override
@@ -255,10 +255,10 @@ public class GiveCommand extends CommandBase {
         // /give <player/all> <item> <amount> Give an amount of an item to players
         // /give <player/all> <item> <amount> <enchant: DAMAGE_ALL:2,KNOCKBACK:5> Give an amount of an item to players with enchantments
 
-        player.sendMessage(Formatter.format("Give", "&3/give <item> &7Gives an item to yourself."));
-        player.sendMessage(Formatter.format("Give", "&3/give <player|all> <item> &7Gives an item to a specific player."));
-        player.sendMessage(Formatter.format("Give", "&3/give <player|all> <item> <amount> &7Gives an amount of an item to a specific player."));
-        player.sendMessage(Formatter.format("Give", "&3/give <player|all> <item> <amount> <enchants> &7Gives an amount of an item with enchants to a specific player."));
+        player.sendMessage(Formatter.format("Give", "&9/give <item> &7Gives an item to yourself."));
+        player.sendMessage(Formatter.format("Give", "&9/give <player|all> <item> &7Gives an item to a specific player."));
+        player.sendMessage(Formatter.format("Give", "&9/give <player|all> <item> <amount> &7Gives an amount of an item to a specific player."));
+        player.sendMessage(Formatter.format("Give", "&9/give <player|all> <item> <amount> <enchants> &7Gives an amount of an item with enchants to a specific player."));
         player.sendMessage(Formatter.format("Give", "Enchantments Example: NAME:LEVEL,NAME:LEVEL"));
     }
 

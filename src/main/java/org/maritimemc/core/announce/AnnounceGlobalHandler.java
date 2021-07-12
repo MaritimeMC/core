@@ -1,4 +1,4 @@
-package org.maritimemc.core.admin.message;
+package org.maritimemc.core.announce;
 
 import org.bukkit.Bukkit;
 import org.maritimemc.core.Formatter;
@@ -11,9 +11,12 @@ public class AnnounceGlobalHandler implements Callback {
 
     @Override
     public void run(MessageFormat data) {
-        String message = ((StringMessageFormat)data).getString();
+        String message = ((StringMessageFormat) data).getString();
 
         Bukkit.broadcastMessage(Formatter.format("&2Network Announcement", message));
-        Bukkit.getOnlinePlayers().forEach((player) -> VersionHandler.NMS_HANDLER.sendTitle(player, "§2§lNetwork Announcement", message, 13, 80, 13));
+        Bukkit.getOnlinePlayers().forEach((player) -> {
+            VersionHandler.NMS_HANDLER.sendTitle(player, "§2§lNetwork Announcement", message, 13, 80, 13);
+            player.playSound(player.getLocation(), VersionHandler.NMS_HANDLER.getNotePling(), 7, 5);
+        });
     }
 }

@@ -1,11 +1,10 @@
-package org.maritimemc.core.admin.command;
+package org.maritimemc.core.builder;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.maritimemc.core.Formatter;
-import org.maritimemc.core.admin.Administrate;
 import org.maritimemc.core.command.CommandBase;
 
 import java.util.Arrays;
@@ -17,7 +16,7 @@ public class GamemodeCommand extends CommandBase {
     public GamemodeCommand(String name) {
         super(name);
         setAliases(Arrays.asList("gm", "creative"));
-        setRequiredPermission(Administrate.AdministratePerm.GAMEMODE_COMMAND);
+        setRequiredPermission(BuilderModule.BuildPerm.GAMEMODE_COMMAND);
     }
 
     @Override
