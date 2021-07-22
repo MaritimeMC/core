@@ -99,7 +99,7 @@ public class TwoFactor implements Module {
 
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void chat(AsyncPlayerChatEvent event) {
         // Input code via chat & block chat from processing
 

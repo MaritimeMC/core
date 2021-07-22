@@ -50,13 +50,18 @@ public class ReportInformationPage implements ReportPage {
         MenuButton reason = new MenuButton(new ItemBuilder(Material.PAPER).displayName("&d&lReason for Report").lore("&7Reason: &d'" + report.getReason() + "&d'").build());
         MenuButton time = new MenuButton(new ItemBuilder(Material.WATCH).displayName("&d&lReport Time").lore("&7Time of Creation: &d" + UtilTime.formatDate(report.getReportTime())).build());
 
-        menu.registerButton(creator, 10);
-        menu.registerButton(offender, 11);
-        menu.registerButton(status, 12);
-        menu.registerButton(category, 13);
-        menu.registerButton(resolved, 14);
-        menu.registerButton(reason, 15);
-        menu.registerButton(time, 16);
+        menu.registerButton(creator, 9);
+        menu.registerButton(offender, 10);
+        menu.registerButton(status, 11);
+        menu.registerButton(category, 12);
+        menu.registerButton(resolved, 13);
+        menu.registerButton(reason, 14);
+        menu.registerButton(time, 15);
+
+        if (report.getChatLogToken() != null) {
+            MenuButton chatLog = new MenuButton(new ItemBuilder(Material.BOOK_AND_QUILL).displayName("&d&lChatLog Token").lore("&7Token: &d" + report.getChatLogToken()).build());
+            menu.registerButton(chatLog, 16);
+        }
 
         MenuButton back = new MenuButton(
                 new ItemBuilder(Material.BARRIER)

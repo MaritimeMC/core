@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.maritimemc.core.Formatter;
 import org.maritimemc.core.Module;
@@ -11,6 +12,7 @@ import org.maritimemc.core.command.CommandCenter;
 import org.maritimemc.core.db.messaging.DatabaseMessageManager;
 import org.maritimemc.core.db.messaging.MessageChannel;
 import org.maritimemc.core.message.channel.ChatChannel;
+import org.maritimemc.core.message.channel.ChatChannelLogEvent;
 import org.maritimemc.core.message.channel.command.ManagementChatCommand;
 import org.maritimemc.core.message.channel.command.StaffChatCommand;
 import org.maritimemc.core.message.channel.redis.ChatChannelMessageFormat;
@@ -22,8 +24,10 @@ import org.maritimemc.core.message.message.Message;
 import org.maritimemc.core.message.message.MessagePlayer;
 import org.maritimemc.core.message.message.command.CommandMessage;
 import org.maritimemc.core.message.message.command.CommandReply;
+import org.maritimemc.core.message.message.event.PrivateMessageLogEvent;
 import org.maritimemc.core.perm.PermissionManager;
 import org.maritimemc.core.profile.ProfileManager;
+import org.maritimemc.core.server.ServerDataManager;
 import org.maritimemc.core.service.Locator;
 import org.maritimemc.core.thread.ThreadPool;
 import org.maritimemc.core.util.UuidNameFetcher;
@@ -34,6 +38,7 @@ import org.maritimemc.data.player.PlayerProfile;
 
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 public class MessageManager implements Module {
 
@@ -52,6 +57,8 @@ public class MessageManager implements Module {
 
     private final PermissionManager permissionManager = Locator.locate(PermissionManager.class);
     private final ProfileManager profileManager = Locator.locate(ProfileManager.class);
+    private final ServerDataManager serverDataManager = Locator.locate(ServerDataManager.class);
+
 
     public MessageManager() {
         this.channelSet = new HashSet<>();
@@ -94,17 +101,20 @@ public class MessageManager implements Module {
     }
 
     public void send(ChatChannel channel, Player player, String message) {
-        if (!channel.isGlobal()) {
-            return;
-        }
-
         ChatChannelMessageFormat format =
                 new ChatChannelMessageFormat(channel.getName(),
                         player.getName(),
+                        player.getUniqueId(),
                         channel.getPlayerColor(player),
-                        message);
+                        message,
+                        serverDataManager.getServerName(),
+                        System.currentTimeMillis());
 
-        ThreadPool.ASYNC_POOL.execute(() -> databaseMessageManager.send(CHAT_CHANNEL_REDIS, format));
+        if (!channel.isGlobal()) {
+            handle(format);
+        } else {
+            ThreadPool.ASYNC_POOL.execute(() -> databaseMessageManager.send(CHAT_CHANNEL_REDIS, format));
+        }
     }
 
     public void handle(ChatChannelMessageFormat data) {
@@ -114,13 +124,21 @@ public class MessageManager implements Module {
             return;
         }
 
-        for (Player recipient : channel.getRecipients()) {
-            recipient.sendMessage(channel.format(data.getPlayerName(), data.getColor(), data.getMessage()));
+        Set<UUID> recipients = channel.getRecipients().stream().map(Player::getUniqueId).collect(Collectors.toSet());
+
+        ChatChannelLogEvent event = new ChatChannelLogEvent(data.getPlayerUuid(), recipients, channel, data.getMessage(), data.getSenderServerName(), data.getTime());
+        Bukkit.getPluginManager().callEvent(event);
+
+        for (UUID recipient : recipients) {
+            Bukkit.getPlayer(recipient).sendMessage(channel.format(data.getPlayerName(), data.getColor(), data.getMessage()));
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.NORMAL)
     public void chat(AsyncPlayerChatEvent event) {
+
+        if (event.isCancelled()) return;
+
         char c = event.getMessage().charAt(0);
 
         for (ChatChannel channel : channelSet) {
@@ -159,7 +177,7 @@ public class MessageManager implements Module {
             return;
         }
 
-        Message m = new Message(new MessagePlayer(player.getName(), player.getUniqueId()), new MessagePlayer(profile.getName(), uuid), content);
+        Message m = new Message(new MessagePlayer(player.getName(), player.getUniqueId()), new MessagePlayer(profile.getName(), uuid), content, serverDataManager.getServerName(), System.currentTimeMillis());
 
         player.sendMessage(Formatter.format("&2Message sent to: &a" + profile.getName() + " &8> &7" + ChatColor.stripColor(Formatter.format(content))));
 
@@ -168,6 +186,7 @@ public class MessageManager implements Module {
         }
 
         replyMap.put(player.getUniqueId(), uuid);
+        Bukkit.getPluginManager().callEvent(new PrivateMessageLogEvent(m));
 
         if (Bukkit.getPlayer(uuid) != null) {
             handle(m);
@@ -183,6 +202,11 @@ public class MessageManager implements Module {
             replyMap.put(player.getUniqueId(), message.getSender().getUuid());
             player.sendMessage(Formatter.format("&2&lMessage from: &a" + message.getSender().getName() + " &8> &7" + ChatColor.stripColor(Formatter.format(message.getContent()))));
             player.playSound(player.getLocation(), VersionHandler.NMS_HANDLER.getNotePling(), 7, 8);
+
+            // Only log if the sender isn't online (gets logged by default for the sender)
+            if (Bukkit.getPlayer(message.getRecipient().getUuid()) == null) {
+                Bukkit.getPluginManager().callEvent(new PrivateMessageLogEvent(message));
+            }
         }
     }
 

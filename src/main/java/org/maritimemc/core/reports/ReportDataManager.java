@@ -19,8 +19,8 @@ import java.util.UUID;
 
 public class ReportDataManager {
 
-    private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS user_reports (id INT NOT NULL AUTO_INCREMENT, creator BINARY(16), creatorName VARCHAR(16), discordId BIGINT, offenderUuid BINARY(16), offenderName VARCHAR(16), category TEXT, resolved TINYINT(1), resolvedTime BIGINT, resolvedBy BINARY(16), reason TEXT, reportTime BIGINT, reportStatus TEXT, publicDiscordChannelId BIGINT, staffDiscordMessageId BIGINT, PRIMARY KEY (id));";
-    private static final String INSERT_REPORT = "INSERT INTO user_reports (creator, creatorName, discordId, offenderUuid, offenderName, category, reason, reportTime, reportStatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+    private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS user_reports (id INT NOT NULL AUTO_INCREMENT, creator BINARY(16), creatorName VARCHAR(16), discordId BIGINT, offenderUuid BINARY(16), offenderName VARCHAR(16), category TEXT, resolved TINYINT(1), resolvedTime BIGINT, resolvedBy BINARY(16), reason TEXT, reportTime BIGINT, reportStatus TEXT, publicDiscordChannelId BIGINT, staffDiscordMessageId BIGINT, chatLogToken TEXT, PRIMARY KEY (id));";
+    private static final String INSERT_REPORT = "INSERT INTO user_reports (creator, creatorName, discordId, offenderUuid, offenderName, category, reason, reportTime, reportStatus, chatLogToken) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
     private static final String GET_MAX_ID = "SELECT MAX(id) AS m_id FROM user_reports;";
     private static final String GET_REPORT_BY_ID = "SELECT * FROM user_reports WHERE id = ?;";
     private static final String UPDATE_REPORT_STATUS = "UPDATE user_reports SET reportStatus = ? WHERE id = ?;";
@@ -60,6 +60,12 @@ public class ReportDataManager {
             ps.setString(7, report.getReason());
             ps.setLong(8, report.getReportTime());
             ps.setString(9, report.getStatus().name());
+
+            if (report.getChatLogToken() == null) {
+                ps.setNull(10, Types.VARCHAR);
+            } else {
+                ps.setString(10, report.getChatLogToken());
+            }
 
             ps.executeUpdate();
 
@@ -124,6 +130,8 @@ public class ReportDataManager {
         temp = rs.getLong("staffDiscordMessageId");
         Long staffDiscordMessageId = temp == 0 ? null : temp;
 
+        String chatLogToken = rs.getString("chatLogToken");
+
         return new Report(
                 id,
                 creator,
@@ -139,7 +147,8 @@ public class ReportDataManager {
                 reportTime,
                 status,
                 publicDiscordChannelId,
-                staffDiscordMessageId
+                staffDiscordMessageId,
+                chatLogToken
         );
     }
 

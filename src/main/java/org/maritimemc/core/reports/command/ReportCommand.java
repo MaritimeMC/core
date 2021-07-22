@@ -61,8 +61,12 @@ public class ReportCommand extends CommandBase {
                 case NAME_INVALID:
                     sender.sendMessage(Formatter.format("Reports",  "That player name is invalid."));
                     return;
-                case SUCCESS:
-                    sender.sendMessage(Formatter.format("Reports","You created the report. &a(ID: " + rep.getId() + ")"));
+                case SUCCESS: {
+                    sender.sendMessage(Formatter.format("Reports", "You created the report. &a(ID: " + rep.getId() + ")"));
+                    if (rep.getChatLogToken() != null) {
+                        sender.sendMessage(Formatter.format("Reports", "We created a log of all your messages so that staff members can view the player's offence. The token is: &a" + rep.getChatLogToken()));
+                    }
+                }
             }
 
         };

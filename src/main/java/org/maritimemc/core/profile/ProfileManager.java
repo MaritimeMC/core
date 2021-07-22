@@ -111,6 +111,20 @@ public class ProfileManager implements Module {
         return profileCache.get(uuid);
     }
 
+    public PlayerProfile getTemporaryClient(UUID uuid, String name) {
+        if (profileCache.containsKey(uuid)) {
+            return profileCache.get(uuid);
+        }
+
+        return new PlayerProfile(
+                name,
+                uuid,
+                null,
+                null,
+                remotePermissionManager.getDirectGroups(uuid)
+        );
+    }
+
     public void loadNewProfile(Player player) {
         PlayerProfile profile = new PlayerProfile(
                 player.getName(),

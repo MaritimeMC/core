@@ -3,6 +3,8 @@ package org.maritimemc.core.reports;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.maritimemc.core.Formatter;
+import org.maritimemc.core.chatlog.ChatLog;
+import org.maritimemc.core.chatlog.ChatLogModule;
 import org.maritimemc.core.db.messaging.DatabaseMessageManager;
 import org.maritimemc.core.db.messaging.format.StringMessageFormat;
 import org.maritimemc.core.reports.event.ReportCreateEvent;
@@ -11,6 +13,7 @@ import org.maritimemc.core.reports.model.ReportCategory;
 import org.maritimemc.core.reports.model.ReportSkeleton;
 import org.maritimemc.core.reports.model.ReportStatus;
 import org.maritimemc.core.service.Locator;
+import org.maritimemc.core.sync.DiscordSyncModule;
 import org.maritimemc.core.thread.ThreadPool;
 import org.maritimemc.core.util.ReplacingHashSet;
 import org.maritimemc.core.util.UuidNameFetcher;
@@ -24,8 +27,9 @@ import java.util.concurrent.CompletableFuture;
 public class ReportController {
 
     private final DatabaseMessageManager databaseMessageManager = Locator.locate(DatabaseMessageManager.class);
-//    private final DiscordSyncModule discordSyncModule = Locator.locate(DiscordSyncModule.class);
+    private final DiscordSyncModule discordSyncModule = Locator.locate(DiscordSyncModule.class);
 
+    private final ChatLogModule chatLogModule = Locator.locate(ChatLogModule.class);
 
     private final ReportDataManager reportDataManager;
     private final Set<Report> reportCache;
@@ -64,8 +68,8 @@ public class ReportController {
             String reason = reportSkeleton.getReason();
             ReportCategory reportCategory = reportSkeleton.getCategory();
 
-//        Long discordId = discordSyncModule.getLinkManager().getDiscordId(creator.getUniqueId());
-            Long discordId = null;
+            Long discordId = discordSyncModule.getLinkManager().getDiscordId(creator.getUniqueId());
+
 
             UUID uuid = UuidNameFetcher.fetchUuid(offenderName);
             if (uuid == null) {
@@ -75,6 +79,11 @@ public class ReportController {
             String name = UuidNameFetcher.fetchName(uuid);
             if (name == null) {
                 return new ReportCreationPair(ReportCreationResponse.NAME_INVALID, null);
+            }
+
+            String token = null;
+            if (reportCategory == ReportCategory.CHAT) {
+                token = chatLogModule.createChatLog(creator.getUniqueId(), creator.getUniqueId(), false).join();
             }
 
             Report report = new Report(
@@ -92,7 +101,8 @@ public class ReportController {
                     System.currentTimeMillis(),
                     ReportStatus.PENDING,
                     null,
-                    null
+                    null,
+                    token
             );
 
             reportCache.add(report);
@@ -119,7 +129,7 @@ public class ReportController {
         report.setResolvedTime(System.currentTimeMillis());
 
         ThreadPool.ASYNC_POOL.submit(() -> {
-           reportDataManager.updateResolution(report.getId(), report.isResolved(), report.getResolvedTime(), report.getResolvedBy());
+            reportDataManager.updateResolution(report.getId(), report.isResolved(), report.getResolvedTime(), report.getResolvedBy());
         });
 
         databaseMessageManager.send(Reports.REPORT_RESOLVE_CHANNEL, new StringMessageFormat(String.valueOf(report.getId())));

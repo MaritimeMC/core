@@ -2,6 +2,8 @@ package org.maritimemc.core.service;
 
 import org.maritimemc.core.announce.AnnouncementModule;
 import org.maritimemc.core.builder.BuilderModule;
+import org.maritimemc.core.chat.Chat;
+import org.maritimemc.core.chatlog.ChatLogModule;
 import org.maritimemc.core.command.CommandCenter;
 import org.maritimemc.core.currency.CurrencyModule;
 import org.maritimemc.core.db.RedisModule;
@@ -15,6 +17,7 @@ import org.maritimemc.core.perm.PermissionManager;
 import org.maritimemc.core.perm.RemotePermissionManager;
 import org.maritimemc.core.perm.group.GroupManagementModule;
 import org.maritimemc.core.profile.ProfileManager;
+import org.maritimemc.core.punish.Punish;
 import org.maritimemc.core.reports.Reports;
 import org.maritimemc.core.server.BungeeInfoModule;
 import org.maritimemc.core.server.ServerDataManager;
@@ -48,12 +51,15 @@ public class ModuleManager {
         locate(InfoCommandModule.class);
 
         locate(StoreModule.class);
+        locate(Chat.class);
+        locate(ChatLogModule.class);
 
         locate(VanishManager.class);
         locate(TwoFactor.class);
         locate(DiscordSyncModule.class);
 
         locate(Reports.class);
+        locate(Punish.class);
         locate(MessageManager.class);
 
         locate(Give.class);

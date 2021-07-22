@@ -12,5 +12,8 @@ public class Message implements MessageFormat {
     private final MessagePlayer recipient;
 
     private final String content;
+    private final String senderServerName;
+
+    private final long time;
 
 }

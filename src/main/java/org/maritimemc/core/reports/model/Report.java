@@ -60,16 +60,19 @@ public class Report {
     // The Message ID of this report in the Staff Discord Server. (or null)
     private final Long staffDiscordMessageId;
 
+    // The token of the linked ChatLog.
+    private final String chatLogToken;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Report report = (Report) o;
-        return id == report.id && creator.equals(report.creator) && creatorName.equals(report.creatorName) && offenderUuid.equals(report.offenderUuid) && offenderName.equals(report.offenderName) && reason.equals(report.reason) && reportTime.equals(report.reportTime);
+        return Objects.equals(creator, report.creator) && Objects.equals(creatorName, report.creatorName) && Objects.equals(discordId, report.discordId) && Objects.equals(offenderUuid, report.offenderUuid) && Objects.equals(offenderName, report.offenderName) && category == report.category && Objects.equals(reason, report.reason) && Objects.equals(reportTime, report.reportTime) && Objects.equals(chatLogToken, report.chatLogToken);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, creator, creatorName, offenderUuid, offenderName, reason, reportTime);
+        return Objects.hash(creator, creatorName, discordId, offenderUuid, offenderName, category, reason, reportTime, chatLogToken);
     }
 }
