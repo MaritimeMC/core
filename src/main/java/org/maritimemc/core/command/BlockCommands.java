@@ -68,13 +68,13 @@ public class BlockCommands implements Module {
     private void helpMessage(Player player) {
 
         player.sendMessage(" ");
-        player.sendMessage(color(" &d&lMinedroid Network"));
+        player.sendMessage(color(" &9&lMaritimeMC"));
         player.sendMessage(" ");
-        player.sendMessage(color(" &eNeed help? Ask a staff member using"));
-        player.sendMessage(color(" &bcontact&e."));
+        player.sendMessage(color(" &7Need help? Ask a staff member using"));
+        player.sendMessage(color(" &9contact&7."));
         player.sendMessage(" ");
-        player.sendMessage(color(" &eYou can visit our store and forums using"));
-        player.sendMessage(color(" &ethe link &bhttps:minedroid.network&e."));
+        player.sendMessage(color(" &7You can visit our store and forums using"));
+        player.sendMessage(color(" &7the link &9https://maritimemc.org&7."));
         player.sendMessage(" ");
 
     }

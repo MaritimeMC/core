@@ -1,13 +1,3 @@
-/*
- * Copyright © Minedroid Network 2020
- *
- * You may not use, distribute, or share this code under any circumstances
- * without explicit permission from Minedroid Network. All source code and
- * binaries are owned by Minedroid Network.
- *
- * All rights reserved.
- */
-
 package org.maritimemc.core.punish.api;
 
 import lombok.Getter;

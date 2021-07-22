@@ -88,7 +88,7 @@ public class TypeBan implements PunishmentType, KickingType {
     public String generateKickMessage(Punishment punishment) {
         if (punishment.getDuration() == -1) {
             return String.join("\n" + ChatColor.GRAY,
-                    "§8(§dMinedroid Network§8)",
+                    "§8(§9MaritimeMC§8)",
                     " ",
                     "§cYou are banned.",
                     " ",
@@ -100,7 +100,7 @@ public class TypeBan implements PunishmentType, KickingType {
                     "§bUnfairly punished? §7Appeal on our forums.");
         } else {
             return String.join("\n" + ChatColor.GRAY,
-                    "§8(§dMinedroid Network§8)",
+                    "§8(§9MaritimeMC§8)",
                     " ",
                     "§cYou are temporarily banned.",
                     " ",
