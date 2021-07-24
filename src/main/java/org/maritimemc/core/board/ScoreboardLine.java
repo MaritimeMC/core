@@ -48,6 +48,7 @@ public class ScoreboardLine {
             team.setSuffix(after);
         } else {
             team.setPrefix(content);
+            team.setSuffix("");
         }
     }
 

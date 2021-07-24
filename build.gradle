@@ -7,7 +7,7 @@ allprojects {
     apply plugin: 'java'
 
     group 'org.maritimemc'
-    version '1.0.1'
+    version '1.0.2'
 
     repositories {
         mavenCentral()
@@ -44,9 +44,12 @@ allprojects {
  *
  * Any dependencies required to compile core, but are either present through Spigot or exported
  * in core as a subproject should be declared as compileOnly.
+ *
  * Any dependencies required to compile core, which are not present within core's export and
  * not present on the classpath of Spigot should be declared as compile. This way,
- * the project utilising core will export this dependency.
+ * the project utilising core will export this dependency. These are passed into Maven with the
+ * 'compile' scope, and therefore imported and compiled with the plugin that requires core. It's deprecated
+ * but it seems to be the only way that works.
  */
 
 dependencies {
@@ -92,10 +95,6 @@ publishing {
     publications {
         core(MavenPublication) {
             from components.java
-
-            pom.withXml {
-
-            }
         }
     }
 }
