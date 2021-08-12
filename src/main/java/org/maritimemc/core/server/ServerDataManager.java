@@ -90,6 +90,16 @@ public class ServerDataManager implements Module {
         });
     }
 
+    public void setMeRunning() {
+        if (getServerName().equals("ServerNameNotFound")) return;
+
+        ThreadPool.ASYNC_POOL.submit(() -> {
+            try (Jedis j = redisModule.getResource()) {
+                j.publish("masthead:set_running", getServerName());
+            }
+        });
+    }
+
     public void send(Player player, String serverGroupName) {
         send(player.getUniqueId(), serverGroupName);
     }
