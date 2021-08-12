@@ -4,6 +4,7 @@ import org.maritimemc.core.Module;
 import org.maritimemc.core.command.CommandCenter;
 import org.maritimemc.core.perm.PermissionManager;
 import org.maritimemc.core.perm.group.command.CommandRank;
+import org.maritimemc.core.perm.group.command.CommandReloadProfile;
 import org.maritimemc.data.perm.Permission;
 import org.maritimemc.data.perm.PermissionGroup;
 
@@ -16,10 +17,11 @@ public class GroupManagementModule implements Module {
 
     public GroupManagementModule() {
         permissionManager.addPermission(PermissionGroup.ADMINISTRATOR, GroupPerm.RANK_COMMAND, true);
-        commandCenter.register(new CommandRank("rank"));
+        permissionManager.addPermission(PermissionGroup.ADMINISTRATOR, GroupPerm.PROFILE_RELOAD_COMMAND, true);
+        commandCenter.register(new CommandRank("rank"), new CommandReloadProfile("reloadprofile"));
     }
 
     public enum GroupPerm implements Permission {
-        RANK_COMMAND;
+        RANK_COMMAND, PROFILE_RELOAD_COMMAND;
     }
 }

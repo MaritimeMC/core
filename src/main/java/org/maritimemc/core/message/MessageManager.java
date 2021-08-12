@@ -223,7 +223,7 @@ public class MessageManager implements Module {
         contactMessage = ChatColor.stripColor(Formatter.format(contactMessage));
         player.sendMessage(Formatter.format("&8[&9Sent Contact&8] &7You said: &a" + contactMessage));
 
-        ContactFormat c = new ContactFormat(player.getName(), contactMessage);
+        ContactFormat c = new ContactFormat(player.getName(), Formatter.toChatColor(profileManager.getCached(player).getHighestPrimaryGroup().getColour()), contactMessage);
         ThreadPool.ASYNC_POOL.execute(() -> databaseMessageManager.send(CONTACT_REDIS, c));
     }
 
@@ -232,7 +232,7 @@ public class MessageManager implements Module {
             PlayerProfile profile = profileManager.getCached(player);
             if (permissionManager.hasPermission(profile, MessagePerm.RECEIVE_CONTACTS)) {
                 player.sendMessage(Formatter.format("&8[&9Incoming Contact] "
-                        + Formatter.toChatColor(profile.getHighestPrimaryGroup().getColour())
+                        + contactFormat.getSenderColour()
                         + contactFormat.getSenderName()
                         + " &8> &7"
                         + contactFormat.getContent()));

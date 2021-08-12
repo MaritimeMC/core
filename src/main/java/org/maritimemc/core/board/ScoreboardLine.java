@@ -40,6 +40,11 @@ public class ScoreboardLine {
             String before = content.substring(0, 16);
             String after = ChatColor.getLastColors(before) + content.substring(16);
 
+            if (before.charAt(15) == ChatColor.COLOR_CHAR) {
+                before = content.substring(0, 15);
+                after = ChatColor.getByChar(content.charAt(16)) + content.substring(17);
+            }
+
             if (after.length() > 16) {
                 throw new UnsupportedOperationException("Content is > 32 characters long: " + content);
             }

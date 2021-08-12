@@ -13,6 +13,7 @@ import org.maritimemc.core.service.Locator;
 import org.maritimemc.core.util.UtilLog;
 import org.maritimemc.data.perm.PermissionGroup;
 
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class MaritimeScoreboard {
@@ -140,6 +141,11 @@ public class MaritimeScoreboard {
         removeFromBuffer(player);
 
         namesBuffered.get(color).add(new PlayerNameEntry(player.getName()));
+
+        StringBuilder s = new StringBuilder();
+        for (PlayerNameEntry playerNameEntry : namesBuffered.get(color)) {
+            s.append(playerNameEntry.getName()).append(",");
+        }
     }
 
     private void removeFromBuffer(Player player) {
@@ -147,7 +153,7 @@ public class MaritimeScoreboard {
 
             PlayerNameEntry entry = null;
             for (PlayerNameEntry playerNameEntry : chatColorSetEntry.getValue()) {
-                if (player.getName().equals(player.getName())) {
+                if (player.getName().equals(playerNameEntry.getName())) {
                     entry = playerNameEntry;
                 }
             }
