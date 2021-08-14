@@ -1,6 +1,9 @@
 package org.maritimemc.core.server;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -21,7 +24,10 @@ import redis.clients.jedis.Jedis;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.Collection;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class ServerDataManager implements Module {
 
@@ -62,6 +68,12 @@ public class ServerDataManager implements Module {
 
         this.serverName = new BufferedReader(new FileReader(f)).readLine();
         return serverName;
+    }
+
+    public boolean groupHasServer(String groupName) {
+        try (Jedis j = redisModule.getResource()) {
+            return j.keys("group_servers:" + groupName).size() > 0;
+        }
     }
 
     @EventHandler
@@ -116,6 +128,26 @@ public class ServerDataManager implements Module {
         ThreadPool.ASYNC_POOL.submit(() -> {
             try (Jedis j = redisModule.getResource()) {
                 j.publish("masthead:group_connect", o.toString());
+            }
+        });
+    }
+
+    public void send(Collection<? extends Player> players, String serverGroupName) {
+        send(players.stream().map(Player::getUniqueId).collect(Collectors.toSet()), serverGroupName);
+    }
+
+    public void send(Set<UUID> uuids, String serverGroupName) {
+        JsonObject o = new JsonObject();
+
+        JsonArray players = new JsonArray();
+        for (UUID uuid : uuids) players.add(new JsonPrimitive(uuid.toString()));
+
+        o.add("players", players);
+        o.addProperty("group", serverGroupName);
+
+        ThreadPool.ASYNC_POOL.submit(() -> {
+            try (Jedis j = redisModule.getResource()) {
+                j.publish("masthead:group_connect_multiple", o.toString());
             }
         });
     }

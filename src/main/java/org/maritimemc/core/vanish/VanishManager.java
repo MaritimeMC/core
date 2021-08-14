@@ -15,6 +15,7 @@ import org.maritimemc.core.vanish.command.CommandVanish;
 import org.maritimemc.core.vanish.command.CommandVanishForce;
 import org.maritimemc.core.vanish.event.JoinMessageBroadcastEvent;
 import org.maritimemc.core.vanish.event.VanishShowPlayerEvent;
+import org.maritimemc.core.vanish.event.VanishUpdateEvent;
 import org.maritimemc.data.perm.Permission;
 import org.maritimemc.data.perm.PermissionGroup;
 import org.maritimemc.data.player.PlayerProfile;
@@ -29,7 +30,6 @@ public class VanishManager implements Module {
 
     private final PermissionManager permissionManager = locate(PermissionManager.class);
     private final ProfileManager profileManager = locate(ProfileManager.class);
-    private final CommandCenter commandCenter = locate(CommandCenter.class);
 
     private final VanishDataManager vanishDataManager;
 
@@ -42,6 +42,7 @@ public class VanishManager implements Module {
         permissionManager.addPermission(PermissionGroup.HELPER, VanishPerm.USE_VANISH, true);
         permissionManager.addPermission(PermissionGroup.ADMINISTRATOR, VanishPerm.VANISH_ADMIN, true);
 
+        CommandCenter commandCenter = locate(CommandCenter.class);
         commandCenter.register(new CommandVanish("vanish", this), new CommandVanishForce("vanishforce", this));
 
         Module.registerEvents(this);
@@ -128,6 +129,8 @@ public class VanishManager implements Module {
         VanishShowPlayerEvent event = new VanishShowPlayerEvent(player);
         Bukkit.getServer().getPluginManager().callEvent(event);
 
+        Bukkit.getServer().getPluginManager().callEvent(new VanishUpdateEvent(player));
+
         if (!event.isCancelled()) {
 
             for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
@@ -145,6 +148,8 @@ public class VanishManager implements Module {
         player.sendMessage(" ");
         player.sendMessage(Formatter.format(" &3&lYou are now vanished." + ((!reason.equals("") ? " &7(" + reason + ")" : ""))));
         player.sendMessage(" ");
+
+        Bukkit.getServer().getPluginManager().callEvent(new VanishUpdateEvent(player));
 
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
             onlinePlayer.hidePlayer(player);
