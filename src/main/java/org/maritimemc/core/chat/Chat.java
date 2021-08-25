@@ -11,6 +11,7 @@ import org.maritimemc.core.Module;
 import org.maritimemc.core.profile.ProfileManager;
 import org.maritimemc.core.service.Locator;
 import org.maritimemc.core.suffix.SuffixManager;
+import org.maritimemc.core.util.UtilServer;
 import org.maritimemc.data.player.PlayerProfile;
 import org.maritimemc.data.player.Suffix;
 
@@ -33,10 +34,11 @@ public class Chat implements Module {
             return;
         }
 
+        event.setCancelled(true);
+
         PlayerProfile profile = profileManager.getCached(event.getPlayer());
         if (profile == null) {
             event.getPlayer().sendMessage(Formatter.format("&cWe couldn't find your profile? Please re-log."));
-            event.setCancelled(true);
             return;
         }
 
@@ -46,22 +48,25 @@ public class Chat implements Module {
 
         PlayerMessage playerMessage = new PlayerMessage(event.getPlayer(), profile.getHighestPrimaryGroup(), activeSuffix, message);
 
-        MaritimeChatEvent mce = new MaritimeChatEvent(playerMessage);
-        Bukkit.getPluginManager().callEvent(mce);
+        Bukkit.getScheduler().runTask(UtilServer.getPlugin(), () -> {
 
-        if (mce.isCancelled()) {
-            return;
-        }
+            MaritimeChatEvent mce = new MaritimeChatEvent(playerMessage);
 
-        event.setCancelled(true);
+            Bukkit.getPluginManager().callEvent(mce);
 
-        for (UUID recipient : mce.getRecipients()) {
-            Player player = Bukkit.getPlayer(recipient);
-
-            if (player != null) {
-                player.sendMessage(mce.getChatFormatter().format(mce.getPlayerMessage()));
+            if (mce.isCancelled()) {
+                return;
             }
-        }
+
+            for (UUID recipient : mce.getRecipients()) {
+                Player player = Bukkit.getPlayer(recipient);
+
+                if (player != null) {
+                    player.sendMessage(mce.getChatFormatter().format(mce.getPlayerMessage()));
+                }
+            }
+
+        });
     }
 
 }

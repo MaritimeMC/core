@@ -1,23 +1,23 @@
-package org.maritimemc.core.chat;
+package org.maritimemc.core.currency;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.maritimemc.core.chat.BasicChatFormatter;
+import org.maritimemc.core.chat.ChatFormatter;
+import org.maritimemc.core.chat.PlayerMessage;
 
-import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class MaritimeChatEvent extends Event implements Cancellable {
+public class CurrencyUpdateEvent extends Event implements Cancellable {
 
     private static final HandlerList HANDLER_LIST = new HandlerList();
 
@@ -25,10 +25,10 @@ public class MaritimeChatEvent extends Event implements Cancellable {
         return HANDLER_LIST;
     }
 
-    private final PlayerMessage playerMessage;
+    private final UUID uuid;
+    private final Currency currency;
+    private final int gameId;
 
-    private ChatFormatter chatFormatter = new BasicChatFormatter();
-    private Set<UUID> recipients = Bukkit.getOnlinePlayers().stream().map(Player::getUniqueId).collect(Collectors.toSet());
     private boolean cancelled = false;
 
     @Override
