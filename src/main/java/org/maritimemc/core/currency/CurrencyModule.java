@@ -2,6 +2,7 @@ package org.maritimemc.core.currency;
 
 import org.bukkit.Bukkit;
 import org.maritimemc.core.Module;
+import org.maritimemc.core.util.UtilServer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -118,7 +119,7 @@ public class CurrencyModule implements Module {
             cachedCurrencyData.setCurrency(currency, gameId, amount);
         }
 
-        Bukkit.getPluginManager().callEvent(new CurrencyUpdateEvent(uuid, currency, gameId));
+        Bukkit.getScheduler().runTask(UtilServer.getPlugin(), () -> Bukkit.getPluginManager().callEvent(new CurrencyUpdateEvent(uuid, currency, gameId)));
     }
 
     public void add(UUID uuid, Currency currency, int amount) {

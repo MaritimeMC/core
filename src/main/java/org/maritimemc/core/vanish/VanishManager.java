@@ -11,6 +11,7 @@ import org.maritimemc.core.Module;
 import org.maritimemc.core.command.CommandCenter;
 import org.maritimemc.core.perm.PermissionManager;
 import org.maritimemc.core.profile.ProfileManager;
+import org.maritimemc.core.util.UtilServer;
 import org.maritimemc.core.vanish.command.CommandVanish;
 import org.maritimemc.core.vanish.command.CommandVanishForce;
 import org.maritimemc.core.vanish.event.JoinMessageBroadcastEvent;
@@ -127,9 +128,9 @@ public class VanishManager implements Module {
         player.sendMessage(" ");
 
         VanishShowPlayerEvent event = new VanishShowPlayerEvent(player);
-        Bukkit.getServer().getPluginManager().callEvent(event);
+        Bukkit.getScheduler().runTask(UtilServer.getPlugin(), () -> Bukkit.getPluginManager().callEvent(event));
 
-        Bukkit.getServer().getPluginManager().callEvent(new VanishUpdateEvent(player));
+        Bukkit.getScheduler().runTask(UtilServer.getPlugin(), () -> Bukkit.getPluginManager().callEvent(new VanishUpdateEvent(player)));
 
         if (!event.isCancelled()) {
 
@@ -149,7 +150,7 @@ public class VanishManager implements Module {
         player.sendMessage(Formatter.format(" &3&lYou are now vanished." + ((!reason.equals("") ? " &7(" + reason + ")" : ""))));
         player.sendMessage(" ");
 
-        Bukkit.getServer().getPluginManager().callEvent(new VanishUpdateEvent(player));
+        Bukkit.getScheduler().runTask(UtilServer.getPlugin(), () -> Bukkit.getPluginManager().callEvent(new VanishUpdateEvent(player)));
 
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
             onlinePlayer.hidePlayer(player);

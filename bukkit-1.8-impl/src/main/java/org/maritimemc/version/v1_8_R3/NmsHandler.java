@@ -10,6 +10,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.maritimemc.abstraction.INmsHandler;
 
 import java.lang.reflect.Field;
@@ -72,6 +73,16 @@ public class NmsHandler implements INmsHandler {
     @Override
     public Sound getNotePling() {
         return Sound.NOTE_PLING;
+    }
+
+    @Override
+    public void setSkullOwner(SkullMeta meta, String data) {
+        meta.setOwner(data);
+    }
+
+    @Override
+    public boolean usesSkullUUIDs() {
+        return false;
     }
 
 }

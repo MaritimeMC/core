@@ -16,6 +16,7 @@ import org.maritimemc.core.service.Locator;
 import org.maritimemc.core.sync.DiscordSyncModule;
 import org.maritimemc.core.thread.ThreadPool;
 import org.maritimemc.core.util.ReplacingHashSet;
+import org.maritimemc.core.util.UtilServer;
 import org.maritimemc.core.util.UuidNameFetcher;
 
 import java.util.HashSet;
@@ -58,7 +59,7 @@ public class ReportController {
     public CompletableFuture<ReportCreationPair> createReport(Player creator, ReportSkeleton reportSkeleton) {
         return CompletableFuture.supplyAsync(() -> {
             ReportCreateEvent reportCreateEvent = new ReportCreateEvent(creator.getUniqueId());
-            Bukkit.getPluginManager().callEvent(reportCreateEvent);
+            Bukkit.getScheduler().runTask(UtilServer.getPlugin(), () -> Bukkit.getPluginManager().callEvent(reportCreateEvent));
 
             if (reportCreateEvent.isCancelled()) {
                 return new ReportCreationPair(ReportCreationResponse.REPORT_BANNED, null);

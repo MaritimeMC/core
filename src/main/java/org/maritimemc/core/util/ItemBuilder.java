@@ -7,9 +7,11 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.maritimemc.core.versioning.VersionHandler;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Item builder utility class, used to
@@ -135,15 +137,15 @@ public class ItemBuilder {
         return this;
     }
 
-    /**
-     * Sets the owner of this item, if it is a player head.
-     *
-     * @param name The name of the player.
-     */
     public ItemBuilder skullOwner(String name) {
         if (wrappedMeta instanceof SkullMeta) {
             durability(3);
-            ((SkullMeta)wrappedMeta).setOwner(name);
+
+            if (VersionHandler.NMS_HANDLER.usesSkullUUIDs()) {
+                VersionHandler.NMS_HANDLER.setSkullOwner((SkullMeta) wrappedMeta, String.valueOf(UuidNameFetcher.fetchUuid(name)));
+            } else {
+                VersionHandler.NMS_HANDLER.setSkullOwner((SkullMeta) wrappedMeta, name);
+            }
         } else {
             throw new UnsupportedOperationException("Cannot set skull owner on a non-skull material.");
         }

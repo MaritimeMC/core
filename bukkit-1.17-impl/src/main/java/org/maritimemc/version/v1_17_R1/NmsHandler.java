@@ -3,10 +3,14 @@ package org.maritimemc.version.v1_17_R1;
 import lombok.SneakyThrows;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.maritimemc.abstraction.INmsHandler;
+
+import java.util.UUID;
 
 public class NmsHandler implements INmsHandler {
 
@@ -37,6 +41,16 @@ public class NmsHandler implements INmsHandler {
     @Override
     public Sound getNotePling() {
         return Sound.BLOCK_NOTE_BLOCK_PLING;
+    }
+
+    @Override
+    public void setSkullOwner(SkullMeta meta, String data) {
+        meta.setOwningPlayer(Bukkit.getOfflinePlayer(UUID.fromString(data)));
+    }
+
+    @Override
+    public boolean usesSkullUUIDs() {
+        return true;
     }
 
 }

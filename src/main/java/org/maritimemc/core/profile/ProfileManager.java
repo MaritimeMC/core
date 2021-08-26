@@ -141,7 +141,7 @@ public class ProfileManager implements Module {
     public void reloadCachedProfile(UUID uuid) {
         if (Bukkit.getPlayer(uuid) != null) {
             loadNewProfile(Bukkit.getPlayer(uuid));
-            Bukkit.getPluginManager().callEvent(new ProfileReloadEvent(uuid));
+            Bukkit.getScheduler().runTask(UtilServer.getPlugin(), () -> Bukkit.getPluginManager().callEvent(new ProfileReloadEvent(uuid)));
         }
     }
 }

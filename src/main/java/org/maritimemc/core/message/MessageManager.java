@@ -30,6 +30,7 @@ import org.maritimemc.core.profile.ProfileManager;
 import org.maritimemc.core.server.ServerDataManager;
 import org.maritimemc.core.service.Locator;
 import org.maritimemc.core.thread.ThreadPool;
+import org.maritimemc.core.util.UtilServer;
 import org.maritimemc.core.util.UuidNameFetcher;
 import org.maritimemc.core.versioning.VersionHandler;
 import org.maritimemc.data.perm.Permission;
@@ -127,7 +128,7 @@ public class MessageManager implements Module {
         Set<UUID> recipients = channel.getRecipients().stream().map(Player::getUniqueId).collect(Collectors.toSet());
 
         ChatChannelLogEvent event = new ChatChannelLogEvent(data.getPlayerUuid(), recipients, channel, data.getMessage(), data.getSenderServerName(), data.getTime());
-        Bukkit.getPluginManager().callEvent(event);
+        Bukkit.getScheduler().runTask(UtilServer.getPlugin(), () -> Bukkit.getPluginManager().callEvent(event));
 
         for (UUID recipient : recipients) {
             Bukkit.getPlayer(recipient).sendMessage(channel.format(data.getPlayerName(), data.getColor(), data.getMessage()));
@@ -186,7 +187,7 @@ public class MessageManager implements Module {
         }
 
         replyMap.put(player.getUniqueId(), uuid);
-        Bukkit.getPluginManager().callEvent(new PrivateMessageLogEvent(m));
+        Bukkit.getScheduler().runTask(UtilServer.getPlugin(), () -> Bukkit.getPluginManager().callEvent(new PrivateMessageLogEvent(m)));
 
         if (Bukkit.getPlayer(uuid) != null) {
             handle(m);
@@ -205,7 +206,7 @@ public class MessageManager implements Module {
 
             // Only log if the sender isn't online (gets logged by default for the sender)
             if (Bukkit.getPlayer(message.getRecipient().getUuid()) == null) {
-                Bukkit.getPluginManager().callEvent(new PrivateMessageLogEvent(message));
+                Bukkit.getScheduler().runTask(UtilServer.getPlugin(), () -> Bukkit.getPluginManager().callEvent(new PrivateMessageLogEvent(message)));
             }
         }
     }
