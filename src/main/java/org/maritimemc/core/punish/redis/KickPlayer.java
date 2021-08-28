@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.maritimemc.core.db.messaging.format.MessageFormat;
 import org.maritimemc.core.db.messaging.listen.Callback;
+import org.maritimemc.core.util.UtilServer;
 
 import java.util.UUID;
 
@@ -16,7 +17,7 @@ public class KickPlayer implements Callback {
 
         Player player = Bukkit.getPlayer(f.getPlayer());
         if (player != null) {
-            player.kickPlayer(f.getMessage());
+            Bukkit.getScheduler().runTask(UtilServer.getPlugin(), () -> player.kickPlayer(f.getMessage()));
         }
     }
 

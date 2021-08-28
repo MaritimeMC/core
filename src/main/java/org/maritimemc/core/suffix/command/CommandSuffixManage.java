@@ -133,7 +133,7 @@ public class CommandSuffixManage extends CommandBase {
     private void sendUsage(CommandSender sender) {
         sender.sendMessage(Formatter.format("Suffix", "Incorrect arguments: Listing usage..."));
         sender.sendMessage(Formatter.format("Suffix", "&b/suffixmanage info <player> &7Outputs suffix information about a player."));
-        sender.sendMessage(Formatter.format("Suffix", "&b/suffixmanage add <player> <name> &7Adds a specified group to a player"));
-        sender.sendMessage(Formatter.format("Suffix", "&b/suffixmanage remove <player> <name> &7Removes a specified group from a player"));
+        sender.sendMessage(Formatter.format("Suffix", "&b/suffixmanage add <player> <name> &7Adds a specified suffix to a player"));
+        sender.sendMessage(Formatter.format("Suffix", "&b/suffixmanage remove <player> <name> &7Removes a specified suffix from a player"));
     }
 }
