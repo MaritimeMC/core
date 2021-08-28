@@ -38,7 +38,7 @@ public class ChatLogModule implements Module {
         this.messageSet = new HashSet<>();
 
         PermissionManager permissionManager = Locator.locate(PermissionManager.class);
-        permissionManager.addPermission(PermissionGroup.L3_DONATOR, ChatLogPerm.CHAT_LOG_COMMAND, true);
+        permissionManager.addPermission(PermissionGroup.ATLANTIS, ChatLogPerm.CHAT_LOG_COMMAND, true);
 
         Locator.locate(CommandCenter.class).register(new CommandChatLog("chatlog", this));
 
