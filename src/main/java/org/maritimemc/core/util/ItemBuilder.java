@@ -11,7 +11,6 @@ import org.maritimemc.core.versioning.VersionHandler;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Item builder utility class, used to
@@ -139,11 +138,10 @@ public class ItemBuilder {
 
     public ItemBuilder skullOwner(String name) {
         if (wrappedMeta instanceof SkullMeta) {
-            durability(3);
-
-            if (VersionHandler.NMS_HANDLER.usesSkullUUIDs()) {
+            if (VersionHandler.NMS_HANDLER.usesModernSkulls()) {
                 VersionHandler.NMS_HANDLER.setSkullOwner((SkullMeta) wrappedMeta, String.valueOf(UuidNameFetcher.fetchUuid(name)));
             } else {
+                durability(3);
                 VersionHandler.NMS_HANDLER.setSkullOwner((SkullMeta) wrappedMeta, name);
             }
         } else {

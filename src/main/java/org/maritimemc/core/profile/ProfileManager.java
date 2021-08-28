@@ -53,7 +53,6 @@ public class ProfileManager implements Module {
     @EventHandler
     public void connect(PlayerLoginEvent event) {
         if (event.getResult() != PlayerLoginEvent.Result.KICK_OTHER) {
-
             PlayerProfile profile = getFromRedis(event.getPlayer().getUniqueId());
             if (profile != null) {
                 profile.setServerName(serverDataManager.getServerName());
@@ -100,6 +99,7 @@ public class ProfileManager implements Module {
             String s = ConstantGson.GSON.toJson(profile);
 
             j.set(CLIENT_PREFIX + ":" + uuid.toString(), s);
+            j.expire(CLIENT_PREFIX + ":" + uuid, 3600L);
         }
     }
 
@@ -108,7 +108,14 @@ public class ProfileManager implements Module {
     }
 
     public PlayerProfile getCached(UUID uuid) {
-        return profileCache.get(uuid);
+        PlayerProfile profile = profileCache.get(uuid);
+
+        if (profile != null) {
+            return profile;
+        }
+
+        loadNewProfile(Bukkit.getPlayer(uuid));
+        return getCached(uuid);
     }
 
     public PlayerProfile getTemporaryClient(UUID uuid, String name) {

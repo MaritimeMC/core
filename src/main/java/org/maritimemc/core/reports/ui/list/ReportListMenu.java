@@ -14,6 +14,7 @@ import org.maritimemc.core.util.ItemBuilder;
 import org.maritimemc.core.util.PageUtil;
 import org.maritimemc.core.util.UtilTime;
 import org.maritimemc.core.util.UuidNameFetcher;
+import org.maritimemc.core.versioning.VersionHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +43,7 @@ public class ReportListMenu implements ReportPage {
             }
 
             for (Report openReport : reports) {
-                ItemBuilder builder = new ItemBuilder(Material.SKULL_ITEM)
+                ItemBuilder builder = new ItemBuilder(VersionHandler.NMS_HANDLER.getPlayerHeadItem())
                         .displayName("&d&lReport #" + openReport.getId())
                         .skullOwner(UuidNameFetcher.fetchName(openReport.getOffenderUuid()))
                         .lore(" ", "&7Current Status: " + openReport.getStatus().getColor() + openReport.getStatus().getName(), "&7Time Created: &d" + UtilTime.formatDate(openReport.getReportTime()), " ", "&cClick to investigate.");

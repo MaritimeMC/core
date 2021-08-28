@@ -11,6 +11,7 @@ import org.maritimemc.core.punish.ui.PunishHistoryPage;
 import org.maritimemc.core.punish.ui.PunishPage;
 import org.maritimemc.core.util.ItemBuilder;
 import org.maritimemc.core.util.UuidNameFetcher;
+import org.maritimemc.core.versioning.VersionHandler;
 import org.maritimemc.data.player.PlayerProfile;
 
 import java.util.UUID;
@@ -60,7 +61,7 @@ public class PunishGUIPreset implements PunishPage {
         menu.registerButton(
 
                 new MenuButton(
-                        new ItemBuilder(Material.SKULL_ITEM)
+                        new ItemBuilder(VersionHandler.NMS_HANDLER.getPlayerHeadItem())
                                 .displayName("&d&lPunish: &r&d" + formattedName)
                                 .lore("&7Use this GUI to punish", "&7the player.")
                                 .skullOwner(formattedName)

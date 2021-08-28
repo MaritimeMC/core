@@ -14,6 +14,7 @@ import org.maritimemc.core.punish.util.FormatTypeName;
 import org.maritimemc.core.util.ItemBuilder;
 import org.maritimemc.core.util.UtilTime;
 import org.maritimemc.core.util.UuidNameFetcher;
+import org.maritimemc.core.versioning.VersionHandler;
 import org.maritimemc.data.player.PlayerProfile;
 
 import java.util.ArrayList;
@@ -53,7 +54,7 @@ public class PunishHistoryPage implements PunishPage {
 
         menu.registerButton(
                 new MenuButton(
-                        new ItemBuilder(Material.SKULL_ITEM)
+                        new ItemBuilder(VersionHandler.NMS_HANDLER.getPlayerHeadItem())
                                 .displayName("&aHistory for " + formattedName)
                                 .lore("&7View punishment history for this", "&7player")
                                 .skullOwner(formattedName)

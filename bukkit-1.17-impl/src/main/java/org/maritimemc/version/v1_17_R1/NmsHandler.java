@@ -5,9 +5,11 @@ import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.scoreboard.Team;
 import org.maritimemc.abstraction.INmsHandler;
 
 import java.util.UUID;
@@ -49,8 +51,18 @@ public class NmsHandler implements INmsHandler {
     }
 
     @Override
-    public boolean usesSkullUUIDs() {
+    public boolean usesModernSkulls() {
         return true;
+    }
+
+    @Override
+    public Material getPlayerHeadItem() {
+        return Material.PLAYER_HEAD;
+    }
+
+    @Override
+    public void setTeamColour(Team team, ChatColor color) {
+        team.setColor(color);
     }
 
 }

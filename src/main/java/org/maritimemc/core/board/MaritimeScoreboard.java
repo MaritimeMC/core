@@ -11,9 +11,9 @@ import org.maritimemc.core.Formatter;
 import org.maritimemc.core.profile.ProfileManager;
 import org.maritimemc.core.service.Locator;
 import org.maritimemc.core.util.UtilLog;
+import org.maritimemc.core.versioning.VersionHandler;
 import org.maritimemc.data.perm.PermissionGroup;
 
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class MaritimeScoreboard {
@@ -57,7 +57,7 @@ public class MaritimeScoreboard {
             colourNames.put(color, new HashSet<>());
 
             Team t = scoreboard.registerNewTeam(generateColourTeamName(color));
-            t.setPrefix(color + "");
+            VersionHandler.NMS_HANDLER.setTeamColour(t, color);
         }
 
         namesBuffered = new HashMap<>(colourNames);
@@ -107,12 +107,10 @@ public class MaritimeScoreboard {
         linesBuffered.clear();
 
         for (Map.Entry<ChatColor, Set<PlayerNameEntry>> chatColorSetEntry : namesBuffered.entrySet()) {
-
             ChatColor color = chatColorSetEntry.getKey();
             Set<PlayerNameEntry> set = chatColorSetEntry.getValue();
 
             if (!set.isEmpty()) {
-
                 for (PlayerNameEntry e : set) {
                     if (e.isiWantToBeRemoved()) {
                         removeFromNamesWhereNameEquals(color, e.getName());
@@ -141,11 +139,6 @@ public class MaritimeScoreboard {
         removeFromBuffer(player);
 
         namesBuffered.get(color).add(new PlayerNameEntry(player.getName()));
-
-        StringBuilder s = new StringBuilder();
-        for (PlayerNameEntry playerNameEntry : namesBuffered.get(color)) {
-            s.append(playerNameEntry.getName()).append(",");
-        }
     }
 
     private void removeFromBuffer(Player player) {
@@ -312,5 +305,7 @@ public class MaritimeScoreboard {
         }
     }
 
-
+    public Scoreboard getScoreboardInternal() {
+        return scoreboard;
+    }
 }

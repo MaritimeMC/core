@@ -10,6 +10,7 @@ import org.maritimemc.core.reports.model.ReportStatus;
 import org.maritimemc.core.reports.ui.ReportPage;
 import org.maritimemc.core.util.ItemBuilder;
 import org.maritimemc.core.util.UuidNameFetcher;
+import org.maritimemc.core.versioning.VersionHandler;
 
 public class ReportInvestigateMenu implements ReportPage {
 
@@ -34,7 +35,7 @@ public class ReportInvestigateMenu implements ReportPage {
         if (name == null) return;
 
         MenuButton head = new MenuButton(
-                new ItemBuilder(Material.SKULL_ITEM)
+                new ItemBuilder(VersionHandler.NMS_HANDLER.getPlayerHeadItem())
                         .displayName("&dInvestigating #" + report.getId())
                         .skullOwner(name)
                         .lore("&7Player Name: &d" + name)

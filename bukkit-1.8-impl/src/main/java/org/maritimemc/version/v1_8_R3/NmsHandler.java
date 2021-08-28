@@ -7,10 +7,12 @@ import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerListHeaderFooter;
 import net.minecraft.server.v1_8_R3.PacketPlayOutTitle;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.scoreboard.Team;
 import org.maritimemc.abstraction.INmsHandler;
 
 import java.lang.reflect.Field;
@@ -58,6 +60,9 @@ public class NmsHandler implements INmsHandler {
     @SneakyThrows
     @Override
     public void sendTabHeaderFooter(Player player, String header, String footer) {
+        header = ChatColor.translateAlternateColorCodes('&', header);
+        footer = ChatColor.translateAlternateColorCodes('&', footer);
+
         IChatBaseComponent headerJson = IChatBaseComponent.ChatSerializer.a("{\"text\":\"" + header + "\"}");
         IChatBaseComponent footerJson = IChatBaseComponent.ChatSerializer.a("{\"text\":\"" + footer + "\"}");
 
@@ -81,8 +86,18 @@ public class NmsHandler implements INmsHandler {
     }
 
     @Override
-    public boolean usesSkullUUIDs() {
+    public boolean usesModernSkulls() {
         return false;
+    }
+
+    @Override
+    public Material getPlayerHeadItem() {
+        return Material.SKULL_ITEM;
+    }
+
+    @Override
+    public void setTeamColour(Team team, ChatColor color) {
+        team.setPrefix(color + "");
     }
 
 }

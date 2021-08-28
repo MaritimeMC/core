@@ -1,8 +1,11 @@
 package org.maritimemc.abstraction;
 
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.scoreboard.Team;
 
 public interface INmsHandler {
 
@@ -16,5 +19,9 @@ public interface INmsHandler {
 
     void setSkullOwner(SkullMeta meta, String data);
 
-    boolean usesSkullUUIDs();
+    boolean usesModernSkulls();
+
+    Material getPlayerHeadItem();
+
+    void setTeamColour(Team team, ChatColor color);
 }

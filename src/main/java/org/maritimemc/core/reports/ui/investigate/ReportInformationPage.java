@@ -9,6 +9,7 @@ import org.maritimemc.core.reports.ui.ReportPage;
 import org.maritimemc.core.util.ItemBuilder;
 import org.maritimemc.core.util.UtilTime;
 import org.maritimemc.core.util.UuidNameFetcher;
+import org.maritimemc.core.versioning.VersionHandler;
 
 public class ReportInformationPage implements ReportPage {
 
@@ -37,8 +38,8 @@ public class ReportInformationPage implements ReportPage {
         String creatorName = UuidNameFetcher.fetchName(report.getCreator());
         String offenderName = UuidNameFetcher.fetchName(report.getOffenderUuid());
 
-        MenuButton creator = new MenuButton(new ItemBuilder(Material.SKULL_ITEM).displayName("&d&lReport Creator").lore("&7Name: &d" + creatorName, "&7UUID: &d" + report.getCreator().toString()).skullOwner(creatorName).build());
-        MenuButton offender = new MenuButton(new ItemBuilder(Material.SKULL_ITEM).displayName("&d&lSuspect").lore("&7Name: &d" + offenderName, "&7Name at Report Creation: &d" + report.getOffenderName(), "&7UUID: &d" + report.getOffenderUuid().toString()).skullOwner(offenderName).build());
+        MenuButton creator = new MenuButton(new ItemBuilder(VersionHandler.NMS_HANDLER.getPlayerHeadItem()).displayName("&d&lReport Creator").lore("&7Name: &d" + creatorName, "&7UUID: &d" + report.getCreator().toString()).skullOwner(creatorName).build());
+        MenuButton offender = new MenuButton(new ItemBuilder(VersionHandler.NMS_HANDLER.getPlayerHeadItem()).displayName("&d&lSuspect").lore("&7Name: &d" + offenderName, "&7Name at Report Creation: &d" + report.getOffenderName(), "&7UUID: &d" + report.getOffenderUuid().toString()).skullOwner(offenderName).build());
         MenuButton status = new MenuButton(new ItemBuilder(Material.STAINED_CLAY).displayName("&d&lStatus").lore("&7Current Status: " + report.getStatus().getColor() + report.getStatus().getName()).durability(ReportInvestigateMenu.getColorForStatus(report.getStatus())).build());
         MenuButton category = new MenuButton(new ItemBuilder(report.getCategory().getMaterial()).displayName("&d&lOffence Category").lore("&7Category: " + report.getCategory().getChatColor() + report.getCategory().getName()).build());
         ItemBuilder resolvedBuilder = new ItemBuilder(Material.SHEARS).displayName("&d&lResolution").lore("&7Is Resolved: " + ((report.isResolved()) ? "&aYes" : "&cNo"));

@@ -24,6 +24,7 @@ import org.maritimemc.core.server.ServerDataManager;
 import org.maritimemc.core.store.StoreModule;
 import org.maritimemc.core.suffix.SuffixManager;
 import org.maritimemc.core.sync.DiscordSyncModule;
+import org.maritimemc.core.teleport.TeleportModule;
 import org.maritimemc.core.twofactor.TwoFactor;
 import org.maritimemc.core.vanish.VanishManager;
 
@@ -53,6 +54,7 @@ public class ModuleManager {
         locate(StoreModule.class);
         locate(Chat.class);
         locate(ChatLogModule.class);
+        locate(TeleportModule.class);
 
         locate(VanishManager.class);
         locate(TwoFactor.class);

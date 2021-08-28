@@ -33,7 +33,7 @@ public class BlockCommands implements Module {
             "icanhasbukkit"
     );
 
-    private final List<String> ME = Arrays.asList("me", "/me", "bukkit:me", "/bukkit:me");
+    private final List<String> ME = Arrays.asList("me", "/me", "minecraft:me", "/minecraft:me");
 
     public BlockCommands() {
         Module.registerEvents(this);
@@ -42,17 +42,29 @@ public class BlockCommands implements Module {
     @EventHandler
     public void playerCommandPreProcess(PlayerCommandPreprocessEvent event) {
 
-        if (PLUGINS.contains(event.getMessage())) {
+        if (isIn(PLUGINS, event.getMessage())) {
             event.setCancelled(true);
             pluginMessage(event.getPlayer());
-        } else if (HELP.contains(event.getMessage())) {
+        } else if (isIn(HELP, event.getMessage())) {
             event.setCancelled(true);
             helpMessage(event.getPlayer());
-        } else if (ME.contains(event.getMessage())) {
+        } else if (isIn(ME, event.getMessage())) {
             event.setCancelled(true);
             meMessage(event.getPlayer());
         }
 
+    }
+
+    private boolean isIn(List<String> options, String command) {
+        if (options.contains(command)) return true;
+
+        for (String option : options) {
+            if (command.startsWith(option + " ")) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void pluginMessage(Player player) {

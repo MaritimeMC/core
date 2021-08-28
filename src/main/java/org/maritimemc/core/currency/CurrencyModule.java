@@ -147,13 +147,13 @@ public class CurrencyModule implements Module {
     public void remove(UUID uuid, Currency currency, int gameId, int amount) {
         if (gameId == -1) {
             int before = get(uuid, currency);
-            amount -= before;
+            amount = before - amount;
             assert amount >= 0;
 
             set(uuid, currency, amount);
         } else {
             int before = get(uuid, currency, gameId);
-            amount -= before;
+            amount = before - amount;
             assert amount >= 0;
 
             set(uuid, currency, gameId, amount);
