@@ -19,6 +19,7 @@ public class AnnouncementModule implements Module {
         CommandCenter commandCenter = Locator.locate(CommandCenter.class);
 
         commandCenter.register(new AnnounceCommand("announce"));
+        commandCenter.register(new ShoutCommand("shout"));
 
         generatePermissions();
 
