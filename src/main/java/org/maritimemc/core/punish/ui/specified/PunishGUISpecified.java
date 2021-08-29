@@ -2,6 +2,7 @@ package org.maritimemc.core.punish.ui.specified;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.maritimemc.abstraction.IMaterialMapper;
 import org.maritimemc.core.menu.api.Menu;
 import org.maritimemc.core.menu.api.MenuButton;
 import org.maritimemc.core.punish.Punish;
@@ -91,7 +92,7 @@ public class PunishGUISpecified implements PunishPage {
 
         menu.registerButton(
                 new MenuButton(
-                        new ItemBuilder(Material.BOOK)
+                        new ItemBuilder(VersionHandler.NMS_HANDLER.getMaterialMappings().book(IMaterialMapper.BookState.EMPTY_BOOK))
                                 .displayName("&aPunishment history")
                                 .lore("&7View the player's punishment history.")
                                 .build()

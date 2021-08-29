@@ -66,7 +66,7 @@ public class ConfirmSpecifiedPunishment implements PunishPage {
 
         menu.registerButton(
                 new MenuButton(
-                        new ItemBuilder(Material.STAINED_CLAY)
+                        new ItemBuilder(VersionHandler.NMS_HANDLER.getMaterialMappings().stainedClay())
                                 .durability(5)
                                 .displayName("&a&lConfirm Punishment")
                                 .lore("&7Confirm that you would like to",
@@ -107,7 +107,7 @@ public class ConfirmSpecifiedPunishment implements PunishPage {
 
         menu.registerButton(
                 new MenuButton(
-                        new ItemBuilder(Material.STAINED_CLAY)
+                        new ItemBuilder(VersionHandler.NMS_HANDLER.getMaterialMappings().stainedClay())
                                 .durability(14)
                                 .displayName("&c&lCancel Punishment")
                                 .lore("&7Cancel this punishment.")

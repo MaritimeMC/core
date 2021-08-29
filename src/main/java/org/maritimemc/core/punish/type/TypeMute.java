@@ -12,6 +12,7 @@ import org.maritimemc.core.punish.redis.PunishMessagePlayer;
 import org.maritimemc.core.service.Locator;
 import org.maritimemc.core.util.UtilTime;
 import org.maritimemc.core.util.UuidNameFetcher;
+import org.maritimemc.core.versioning.VersionHandler;
 
 public class TypeMute implements PunishmentType {
 
@@ -32,7 +33,7 @@ public class TypeMute implements PunishmentType {
 
     @Override
     public Material getMaterialType() {
-        return Material.COOKED_FISH;
+        return VersionHandler.NMS_HANDLER.getMaterialMappings().cookedFish();
     }
 
     @Override

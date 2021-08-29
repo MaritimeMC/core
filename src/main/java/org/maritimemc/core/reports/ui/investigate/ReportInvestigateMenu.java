@@ -45,7 +45,7 @@ public class ReportInvestigateMenu implements ReportPage {
         menu.registerButton(head, 4);
 
         MenuButton status = new MenuButton(
-                new ItemBuilder(Material.STAINED_CLAY)
+                new ItemBuilder(VersionHandler.NMS_HANDLER.getMaterialMappings().stainedClay())
                         .displayName("&7Status: " + report.getStatus().getColor() + report.getStatus().getName())
                         .lore("&7This is the report's current status.", " ", "&cClick to change.")
                         .durability(getColorForStatus(report.getStatus()))

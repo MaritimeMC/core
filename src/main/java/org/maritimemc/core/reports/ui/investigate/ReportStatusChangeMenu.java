@@ -9,6 +9,7 @@ import org.maritimemc.core.reports.model.Report;
 import org.maritimemc.core.reports.model.ReportStatus;
 import org.maritimemc.core.reports.ui.ReportPage;
 import org.maritimemc.core.util.ItemBuilder;
+import org.maritimemc.core.versioning.VersionHandler;
 
 public class ReportStatusChangeMenu implements ReportPage {
 
@@ -36,7 +37,7 @@ public class ReportStatusChangeMenu implements ReportPage {
         menu.registerButton(paper, 4);
 
         MenuButton denied = new MenuButton(
-                new ItemBuilder(Material.STAINED_CLAY)
+                new ItemBuilder(VersionHandler.NMS_HANDLER.getMaterialMappings().stainedClay())
                         .displayName(ReportStatus.DENIED.getColor() + "&l" + ReportStatus.DENIED.getName())
                         .glowIf(report.getStatus() == ReportStatus.DENIED)
                         .durability(ReportInvestigateMenu.getColorForStatus(ReportStatus.DENIED))
@@ -48,7 +49,7 @@ public class ReportStatusChangeMenu implements ReportPage {
         });
 
         MenuButton underInv = new MenuButton(
-                new ItemBuilder(Material.STAINED_CLAY)
+                new ItemBuilder(VersionHandler.NMS_HANDLER.getMaterialMappings().stainedClay())
                         .displayName(ReportStatus.UNDER_INVESTIGATION.getColor() + "&l" + ReportStatus.UNDER_INVESTIGATION.getName())
                         .glowIf(report.getStatus() == ReportStatus.UNDER_INVESTIGATION)
                         .durability(ReportInvestigateMenu.getColorForStatus(ReportStatus.UNDER_INVESTIGATION))
@@ -60,7 +61,7 @@ public class ReportStatusChangeMenu implements ReportPage {
         });
 
         MenuButton pending = new MenuButton(
-                new ItemBuilder(Material.STAINED_CLAY)
+                new ItemBuilder(VersionHandler.NMS_HANDLER.getMaterialMappings().stainedClay())
                         .displayName(ReportStatus.PENDING.getColor() + "&l" + ReportStatus.PENDING.getName())
                         .glowIf(report.getStatus() == ReportStatus.PENDING)
                         .durability(ReportInvestigateMenu.getColorForStatus(ReportStatus.PENDING))
@@ -72,7 +73,7 @@ public class ReportStatusChangeMenu implements ReportPage {
         });
 
         MenuButton approved = new MenuButton(
-                new ItemBuilder(Material.STAINED_CLAY)
+                new ItemBuilder(VersionHandler.NMS_HANDLER.getMaterialMappings().stainedClay())
                         .displayName(ReportStatus.APPROVED.getColor() + "&l" + ReportStatus.APPROVED.getName())
                         .glowIf(report.getStatus() == ReportStatus.APPROVED)
                         .durability(ReportInvestigateMenu.getColorForStatus(ReportStatus.APPROVED))

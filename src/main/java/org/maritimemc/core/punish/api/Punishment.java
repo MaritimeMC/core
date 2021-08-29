@@ -4,8 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.maritimemc.abstraction.IMaterialMapper;
 import org.maritimemc.core.punish.api.model.PunishmentType;
 import org.maritimemc.core.punish.api.pojo.Archival;
+import org.maritimemc.core.versioning.VersionHandler;
 
 import java.util.UUID;
 
@@ -115,9 +117,9 @@ public class Punishment {
      */
     public enum OffenceCategory {
         CHAT("Chat", Material.ENCHANTED_BOOK, ChatColor.GOLD),
-        GAMEPLAY("Gameplay", Material.GRASS, ChatColor.GREEN),
-        CLIENT("Client", Material.WOOD_SWORD, ChatColor.DARK_AQUA),
-        REPORT("Report", Material.BOOK_AND_QUILL, ChatColor.RED),
+        GAMEPLAY("Gameplay", VersionHandler.NMS_HANDLER.getMaterialMappings().grassBlock(), ChatColor.GREEN),
+        CLIENT("Client", VersionHandler.NMS_HANDLER.getMaterialMappings().sword(IMaterialMapper.ToolMaterial.WOOD), ChatColor.DARK_AQUA),
+        REPORT("Report", VersionHandler.NMS_HANDLER.getMaterialMappings().book(IMaterialMapper.BookState.WRITABLE_BOOK), ChatColor.RED),
         OTHER("Other", Material.BARRIER, ChatColor.RED);
 
         @Getter

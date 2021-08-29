@@ -13,11 +13,17 @@ import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scoreboard.Team;
+import org.maritimemc.abstraction.IMaterialMapper;
 import org.maritimemc.abstraction.INmsHandler;
 
 import java.lang.reflect.Field;
 
 public class NmsHandler implements INmsHandler {
+
+    @Override
+    public IMaterialMapper getMaterialMappings() {
+        return new MaterialMapper();
+    }
 
     @Override
     public void sendTitle(Player player, String title, String subtitle, int fadeIn, int hold, int fadeOut) {

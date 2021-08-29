@@ -4,12 +4,14 @@ import lombok.Getter;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.maritimemc.abstraction.IMaterialMapper;
 import org.maritimemc.core.menu.api.Menu;
 import org.maritimemc.core.menu.api.MenuButton;
 import org.maritimemc.core.punish.Punish;
 import org.maritimemc.core.punish.api.model.PunishmentType;
 import org.maritimemc.core.punish.ui.PunishPage;
 import org.maritimemc.core.util.ItemBuilder;
+import org.maritimemc.core.versioning.VersionHandler;
 
 import java.util.UUID;
 
@@ -50,7 +52,7 @@ public class DurationChooserSpecified implements PunishPage {
         Menu menu = new Menu("Choose Duration", 5);
 
         menu.registerButton(new MenuButton(
-                new ItemBuilder(Material.WATCH)
+                new ItemBuilder(VersionHandler.NMS_HANDLER.getMaterialMappings().clock())
                         .displayName("&d&lChoose Duration")
                         .lore("&7Choose the duration of the", "&7punishment")
                         .build()
@@ -59,7 +61,7 @@ public class DurationChooserSpecified implements PunishPage {
         for (MenuDuration value : MenuDuration.values()) {
 
             menu.registerButton(new MenuButton(
-                            new ItemBuilder(Material.BOOK)
+                            new ItemBuilder(VersionHandler.NMS_HANDLER.getMaterialMappings().book(IMaterialMapper.BookState.EMPTY_BOOK))
                                     .displayName(value.getColor() + "&l" + value.getName())
                                     .lore("&7Punish the player for " + value.getColor() + value.getName() + "&7.")
                                     .build()

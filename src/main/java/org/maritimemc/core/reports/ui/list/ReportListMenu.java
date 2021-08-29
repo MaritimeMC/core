@@ -67,7 +67,7 @@ public class ReportListMenu implements ReportPage {
 
             Menu menu = new Menu("Reports", 6);
 
-            menu.registerButton(new MenuButton(new ItemBuilder(Material.SIGN).displayName("&c&lView Open Reports").lore("&7View all unresolved reports.").build()),4);
+            menu.registerButton(new MenuButton(new ItemBuilder(VersionHandler.NMS_HANDLER.getMaterialMappings().sign()).displayName("&c&lView Open Reports").lore("&7View all unresolved reports.").build()),4);
 
             MenuButton glass = new MenuButton(new ItemBuilder(Material.STAINED_GLASS_PANE).durability(15).displayName("&8Reports").build());
             for (int i = 0; i < 54; i++) if (isSlotBlackPane(i)) menu.registerButton(glass, i);

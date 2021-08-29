@@ -9,6 +9,8 @@ import org.bukkit.scoreboard.Team;
 
 public interface INmsHandler {
 
+    IMaterialMapper getMaterialMappings();
+
     void sendTitle(Player player, String title, String subtitle, int fadeIn, int hold, int fadeOut);
 
     void sendActionBar(Player player, String message);
