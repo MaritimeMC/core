@@ -47,6 +47,6 @@ public class MaterialMapper implements IMaterialMapper {
 
     @Override
     public Material sign() {
-        return null;
+        return Material.SIGN;
     }
 }
