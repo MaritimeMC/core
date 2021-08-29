@@ -99,7 +99,7 @@ public class ProfileManager implements Module {
             String s = ConstantGson.GSON.toJson(profile);
 
             j.set(CLIENT_PREFIX + ":" + uuid.toString(), s);
-            j.expire(CLIENT_PREFIX + ":" + uuid, 3600L);
+            j.expire(CLIENT_PREFIX + ":" + uuid, 21600L);
         }
     }
 
@@ -108,14 +108,7 @@ public class ProfileManager implements Module {
     }
 
     public PlayerProfile getCached(UUID uuid) {
-        PlayerProfile profile = profileCache.get(uuid);
-
-        if (profile != null) {
-            return profile;
-        }
-
-        loadNewProfile(Bukkit.getPlayer(uuid));
-        return getCached(uuid);
+        return profileCache.get(uuid);
     }
 
     public PlayerProfile getTemporaryClient(UUID uuid, String name) {
