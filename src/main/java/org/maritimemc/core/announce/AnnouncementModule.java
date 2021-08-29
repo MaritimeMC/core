@@ -30,12 +30,14 @@ public class AnnouncementModule implements Module {
         permissionManager.addPermission(PermissionGroup.ADMINISTRATOR, AnnouncePerm.ANNOUNCE_COMMAND_BASE, true);
         permissionManager.addPermission(PermissionGroup.ADMINISTRATOR, AnnouncePerm.ANNOUNCE_LOCAL, true);
         permissionManager.addPermission(PermissionGroup.MANAGER, AnnouncePerm.ANNOUNCE_GLOBAL, true);
+        permissionManager.addPermission(PermissionGroup.MODERATOR, AnnouncePerm.SHOUT, true);
     }
 
     public enum AnnouncePerm implements Permission {
         ANNOUNCE_COMMAND_BASE,
         ANNOUNCE_LOCAL,
         ANNOUNCE_GLOBAL,
+        SHOUT
     }
 
 }
