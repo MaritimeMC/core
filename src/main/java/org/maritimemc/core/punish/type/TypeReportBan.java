@@ -41,11 +41,11 @@ public class TypeReportBan implements PunishmentType {
         if (punishment.getDuration() == -1) {
             // Inform staff of a permanent report-ban
 
-            punish.getDatabaseMessageManager().send(Punish.PUNISH_INFORM_CHANNEL, new StringMessageFormat("&a" + UuidNameFetcher.fetchName(punishment.getUuid()) + " &7was permanently report-banned by &a" + UuidNameFetcher.fetchName(punishment.getStaffUuid()) + "&7."));
+            punish.getDatabaseMessageManager().send(Punish.PUNISH_INFORM_CHANNEL, new StringMessageFormat("&a" + UuidNameFetcher.fetchName(punishment.getUuid()) + " &7was permanently report-banned by &a" + UuidNameFetcher.fetchName(punishment.getStaffUuid()) + "&7. (ID: " + punishment.getId() + ")"));
         } else {
             // Inform staff of a temporary report-ban
 
-            punish.getDatabaseMessageManager().send(Punish.PUNISH_INFORM_CHANNEL, new StringMessageFormat("&a" + UuidNameFetcher.fetchName(punishment.getUuid()) + " &7was temporarily report-banned by &a" + UuidNameFetcher.fetchName(punishment.getStaffUuid()) + "&7."));
+            punish.getDatabaseMessageManager().send(Punish.PUNISH_INFORM_CHANNEL, new StringMessageFormat("&a" + UuidNameFetcher.fetchName(punishment.getUuid()) + " &7was temporarily report-banned by &a" + UuidNameFetcher.fetchName(punishment.getStaffUuid()) + "&7. (ID: " + punishment.getId() + ")"));
         }
 
         if (Locator.locate(ProfileManager.class).isOnlineOnNetwork(punishment.getUuid())) {

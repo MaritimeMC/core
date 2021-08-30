@@ -31,6 +31,11 @@ public class ShoutCommand extends CommandBase {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
+        if (args.length < 1) {
+            sender.sendMessage(Formatter.format("Shout", "&9/shout <message> &7Broadcast a message to your server."));
+            return;
+        }
+
         PlayerProfile profile = profileManager.getCached((Player) sender);
 
         String msg = UtilText.getArguments(args);

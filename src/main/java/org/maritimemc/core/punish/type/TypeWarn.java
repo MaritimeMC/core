@@ -38,7 +38,7 @@ public class TypeWarn implements PunishmentType {
     public void onPunish(Punishment punishment, PunishClient punishClient, Punish punish) {
         // Inform staff of warn
 
-        punish.getDatabaseMessageManager().send(Punish.PUNISH_INFORM_CHANNEL, new StringMessageFormat("&a" + UuidNameFetcher.fetchName(punishment.getUuid()) + " &7was warned by &a" + UuidNameFetcher.fetchName(punishment.getStaffUuid()) + "&7."));
+        punish.getDatabaseMessageManager().send(Punish.PUNISH_INFORM_CHANNEL, new StringMessageFormat("&a" + UuidNameFetcher.fetchName(punishment.getUuid()) + " &7was warned by &a" + UuidNameFetcher.fetchName(punishment.getStaffUuid()) + "&7. (ID: " + punishment.getId() + ")"));
 
         if (Locator.locate(ProfileManager.class).isOnlineOnNetwork(punishment.getUuid())) {
             // Player is online, set seen true, inform player

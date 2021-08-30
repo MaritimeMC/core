@@ -42,11 +42,11 @@ public class TypeBan implements PunishmentType, KickingType {
         if (punishment.getDuration() == -1) {
             // Inform staff of a permanent mute
 
-            punish.getDatabaseMessageManager().send(Punish.PUNISH_INFORM_CHANNEL, new StringMessageFormat("&a" + UuidNameFetcher.fetchName(punishment.getUuid()) + " &7was permanently banned by &a" + UuidNameFetcher.fetchName(punishment.getStaffUuid()) + "&7."));
+            punish.getDatabaseMessageManager().send(Punish.PUNISH_INFORM_CHANNEL, new StringMessageFormat("&a" + UuidNameFetcher.fetchName(punishment.getUuid()) + " &7was permanently banned by &a" + UuidNameFetcher.fetchName(punishment.getStaffUuid()) + "&7. (ID: " + punishment.getId() + ")"));
         } else {
             // Inform staff of a temporary mute
 
-            punish.getDatabaseMessageManager().send(Punish.PUNISH_INFORM_CHANNEL, new StringMessageFormat("&a" + UuidNameFetcher.fetchName(punishment.getUuid()) + " &7was temporarily banned by &a" + UuidNameFetcher.fetchName(punishment.getStaffUuid()) + "&7."));
+            punish.getDatabaseMessageManager().send(Punish.PUNISH_INFORM_CHANNEL, new StringMessageFormat("&a" + UuidNameFetcher.fetchName(punishment.getUuid()) + " &7was temporarily banned by &a" + UuidNameFetcher.fetchName(punishment.getStaffUuid()) + "&7. (ID: " + punishment.getId() + ")"));
         }
 
         if (Locator.locate(ProfileManager.class).isOnlineOnNetwork(punishment.getUuid())) {

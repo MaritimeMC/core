@@ -38,7 +38,7 @@ public class TypeKick implements PunishmentType, KickingType {
         // No need to set seen=true - kicks are true by default.
 
         // Inform staff of a kick
-        punish.getDatabaseMessageManager().send(Punish.PUNISH_INFORM_CHANNEL, new StringMessageFormat("&a" + UuidNameFetcher.fetchName(punishment.getUuid()) + " &7was kicked by &a" + UuidNameFetcher.fetchName(punishment.getStaffUuid()) + "&7."));
+        punish.getDatabaseMessageManager().send(Punish.PUNISH_INFORM_CHANNEL, new StringMessageFormat("&a" + UuidNameFetcher.fetchName(punishment.getUuid()) + " &7was kicked by &a" + UuidNameFetcher.fetchName(punishment.getStaffUuid()) + "&7. (ID: " + punishment.getId() + ")"));
 
         // Send kick publish to entire network for Bukkit server to kick player.
         punish.getDatabaseMessageManager().send(Punish.KICK_PLAYER, new KickPlayer.KickPlayerFormat(punishClient.getUuid(), generateKickMessage(punishment)));
