@@ -7,7 +7,7 @@ allprojects {
     apply plugin: 'java'
 
     group 'org.maritimemc'
-    version '1.0.10'
+    version '1.0.11'
 
     repositories {
         mavenCentral()
@@ -24,11 +24,8 @@ allprojects {
     }
 
     dependencies {
-        compileOnly 'org.projectlombok:lombok:1.18.18'
+        compileOnly 'org.projectlombok:lombok:1.18.20'
         annotationProcessor 'org.projectlombok:lombok:1.18.18'
-
-        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
     }
 
     test {
@@ -59,7 +56,7 @@ dependencies {
 
     compileOnly 'org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT'
 
-    compile 'redis.clients:jedis:3.6.1'
+    compile 'redis.clients:jedis:3.6.3'
     compile 'commons-io:commons-io:2.10.0'
 
     compile 'org.maritimemc:core-data:1.0.2'
