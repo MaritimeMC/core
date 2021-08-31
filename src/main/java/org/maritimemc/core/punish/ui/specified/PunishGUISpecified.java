@@ -7,6 +7,7 @@ import org.maritimemc.core.menu.api.Menu;
 import org.maritimemc.core.menu.api.MenuButton;
 import org.maritimemc.core.punish.Punish;
 import org.maritimemc.core.punish.api.exception.PlayerExemptException;
+import org.maritimemc.core.punish.api.exception.PlayerNotFoundException;
 import org.maritimemc.core.punish.api.model.PunishmentType;
 import org.maritimemc.core.punish.type.*;
 import org.maritimemc.core.punish.ui.PunishHistoryPage;
@@ -36,13 +37,16 @@ public class PunishGUISpecified implements PunishPage {
      * @throws IllegalArgumentException The player name passed was not valid.
      * @throws PlayerExemptException    The target is exempt from punishment and {@code staff} does not have the permission {@link org.maritimemc.core.punish.Punish.PunishPerm#PUNISHMENT_EXEMPT_BYPASS}.
      */
-    public PunishGUISpecified(Player staff, String targetName, String reason, Punish punish) throws PlayerExemptException, IllegalArgumentException {
+    public PunishGUISpecified(Player staff, String targetName, String reason, Punish punish) throws PlayerExemptException, IllegalArgumentException, PlayerNotFoundException {
         this.staff = staff;
         this.reason = reason;
         this.punish = punish;
 
         // Ensure passed player name is an *actual* name
         this.targetUuid = UuidNameFetcher.fetchUuid(targetName);
+
+        if (targetUuid == null) throw new PlayerNotFoundException();
+
         this.formattedName = UuidNameFetcher.fetchName(targetUuid);
 
         // Check that the target player is allowed to be punished.

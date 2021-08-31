@@ -8,6 +8,7 @@ import org.maritimemc.core.command.CommandBase;
 import org.maritimemc.core.perm.PermissionManager;
 import org.maritimemc.core.punish.Punish;
 import org.maritimemc.core.punish.api.exception.PlayerExemptException;
+import org.maritimemc.core.punish.api.exception.PlayerNotFoundException;
 import org.maritimemc.core.punish.ui.preset.PunishGUIPreset;
 import org.maritimemc.core.punish.ui.specified.PunishGUISpecified;
 import org.maritimemc.core.service.Locator;
@@ -42,6 +43,8 @@ public class CommandPunish extends CommandBase {
                 sender.sendMessage(Formatter.format("Punish", "That player name is not valid."));
             } catch (PlayerExemptException exception) {
                 sender.sendMessage(Formatter.format("Punish", "That player is exempt from punishment."));
+            } catch (PlayerNotFoundException e) {
+                sender.sendMessage(Formatter.format("Punish", "That player does not exist."));
             }
 
         } else {
@@ -63,6 +66,8 @@ public class CommandPunish extends CommandBase {
                 sender.sendMessage(Formatter.format("Punish", "That player name is not valid."));
             } catch (PlayerExemptException exception) {
                 sender.sendMessage(Formatter.format("Punish", "That player is exempt from punishment."));
+            } catch (PlayerNotFoundException e) {
+                sender.sendMessage(Formatter.format("Punish", "That player does not exist."));
             }
         }
     }
