@@ -1,14 +1,17 @@
 package org.maritimemc.core.menu.api;
 
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Consumer;
 
 public class MenuButton {
 
     private final ItemStack itemStack;
-    private Consumer<Player> whenClicked;
+    private Map<ClickType, Consumer<Player>> whenClicked;
 
     /**
      * Class constructor
@@ -17,6 +20,7 @@ public class MenuButton {
      */
     public MenuButton(ItemStack itemStack) {
         this.itemStack = itemStack;
+        this.whenClicked = new HashMap<>();
     }
 
     /**
@@ -25,7 +29,11 @@ public class MenuButton {
      * @return The whenClicked consumer.
      */
     public Consumer<Player> getWhenClicked() {
-        return whenClicked;
+        return getWhenClicked(ClickType.LEFT);
+    }
+
+    public Consumer<Player> getWhenClicked(ClickType clickType) {
+        return whenClicked.get(clickType);
     }
 
     /**
@@ -35,7 +43,11 @@ public class MenuButton {
      * @return Returns this object.
      */
     public MenuButton setWhenClicked(Consumer<Player> whenClicked) {
-        this.whenClicked = whenClicked;
+        return setWhenClicked(ClickType.LEFT, whenClicked);
+    }
+
+    public MenuButton setWhenClicked(ClickType clickType, Consumer<Player> whenClicked) {
+        this.whenClicked.put(clickType, whenClicked);
         return this;
     }
 

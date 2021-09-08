@@ -80,6 +80,8 @@ public class Menu {
      * @param event The InventoryClickEvent.
      */
     public void handleClick(InventoryClickEvent event) {
+        event.setCancelled(true);
+
         ItemStack clicked = event.getCurrentItem();
 
         if (clicked == null) {
@@ -89,8 +91,10 @@ public class Menu {
         if (buttonMap.containsKey(event.getRawSlot())) {
             // Clicked on a valid button
 
-            event.setCancelled(true);
             Consumer<Player> consumer = buttonMap.get(event.getRawSlot()).getWhenClicked();
+            if (buttonMap.get(event.getRawSlot()).getWhenClicked(event.getClick()) != null) {
+                consumer = buttonMap.get(event.getRawSlot()).getWhenClicked(event.getClick());
+            }
 
             // Does the button clicked have an action associated with it?
             if (consumer != null) {
