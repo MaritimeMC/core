@@ -2,6 +2,7 @@ package org.maritimemc.core.message.channel;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -14,6 +15,8 @@ import org.maritimemc.data.perm.Permission;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
+import java.util.function.Predicate;
 
 @RequiredArgsConstructor
 @Getter
@@ -22,6 +25,9 @@ public class ChatChannel {
     private final String name;
     private final char shortcut;
     private final boolean global;
+
+    @Setter
+    private Predicate<Player> canUseChannel = (p) -> true; // ie is allowed permission-wise but need to double check for other cirucmstances
 
     private Permission permission = null;
 
@@ -59,6 +65,10 @@ public class ChatChannel {
         }
 
         return playerSet;
+    }
+
+    public Set<Player> getRecipients(UUID sender) {
+        return getRecipients();
     }
 
 }

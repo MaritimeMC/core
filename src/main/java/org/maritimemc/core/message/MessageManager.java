@@ -1,5 +1,6 @@
 package org.maritimemc.core.message;
 
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -46,7 +47,9 @@ public class MessageManager implements Module {
     public static final ChatChannel STAFF_CHAT = new ChatChannel("Staff", '#', true, MessagePerm.USE_STAFF_CHAT);
     public static final ChatChannel MANAGEMENT_CHAT = new ChatChannel("Management", '!', true, MessagePerm.USE_MANAGEMENT_CHAT);
 
+    @Getter
     private final Set<ChatChannel> channelSet;
+
     private final Map<UUID, UUID> replyMap;
 
     private static final MessageChannel CHAT_CHANNEL_REDIS = new MessageChannel("MessageManager", "chatChannel");
@@ -125,7 +128,7 @@ public class MessageManager implements Module {
             return;
         }
 
-        Set<UUID> recipients = channel.getRecipients().stream().map(Player::getUniqueId).collect(Collectors.toSet());
+        Set<UUID> recipients = channel.getRecipients(data.getPlayerUuid()).stream().map(Player::getUniqueId).collect(Collectors.toSet());
 
         ChatChannelLogEvent event = new ChatChannelLogEvent(data.getPlayerUuid(), recipients, channel, data.getMessage(), data.getSenderServerName(), data.getTime());
         Bukkit.getScheduler().runTask(UtilServer.getPlugin(), () -> Bukkit.getPluginManager().callEvent(event));
@@ -149,6 +152,10 @@ public class MessageManager implements Module {
                 if (!permissionManager.hasPermission(profileManager.getCached(event.getPlayer()), channel.getPermission())) {
                     continue;
                 }
+            }
+
+            if (!channel.getCanUseChannel().test(event.getPlayer())) {
+                continue;
             }
 
             event.setCancelled(true);

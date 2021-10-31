@@ -18,8 +18,7 @@ import java.util.*;
 
 public class MaritimeScoreboard {
 
-    // We only need 15 as there will only ever be 15 lines on the scoreboard.
-    private static final char[] COLOUR_CHARS = "1234567890abcde".toCharArray();
+    private static final char[] COLOUR_CHARS = "1234567890abcdef".toCharArray();
 
     private final List<IndexedLine> registeredLines = new ArrayList<>();
 
@@ -48,7 +47,7 @@ public class MaritimeScoreboard {
             team.addEntry(generateEntry(c));
 
             // Setup default empties inside lines.
-            lines.add(new ScoreboardLine(c, 15 - i, team, ""));
+            lines.add(new ScoreboardLine(c, 16 - i, team, ""));
         }
 
         for (char colourChar : COLOUR_CHARS) {
