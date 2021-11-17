@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - id: remove-first-ver-char
-        run: echo '::set-output name=VER::$(echo "${{ github.event.release.tag_name }}" | cut -c 2-)'
+        run: echo "::set-output name=VER::$(echo ${{ github.event.release.tag_name }} | cut -c 2-)"
 
       - name: Create repository dispatch event
         uses: peter-evans/repository-dispatch@v1
