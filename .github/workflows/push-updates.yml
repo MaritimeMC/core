@@ -11,8 +11,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - id: remove-first-ver-char
-        run: echo "::set-output name=VER::$(echo ${{ github.event.release.tag_name }} | cut -c 2-)"
+      - name: Extract new core version name
+        run: echo "VER=$(echo ${{ github.event.release.tag_name }} | cut -c 2-)" > $GITHUB_ENV
 
       - name: Create repository dispatch event
         uses: peter-evans/repository-dispatch@v1
@@ -20,4 +20,4 @@ jobs:
           token: ${{ secrets.MT_TOKEN }}
           repository: MaritimeMC/hub
           event-type: core-bump
-          client-payload: '{"fragment": "minor", "core-version": "${{ steps.remove-first-ver-char.outputs.VER }}"}'
+          client-payload: '{"fragment": "minor", "core-version": "${{ env.VER }}"}'
