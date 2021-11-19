@@ -16,10 +16,20 @@ jobs:
           version=$(echo ${{ github.event.release.tag_name }} | cut -c 2-)
           echo "VER=$version" >> $GITHUB_ENV
 
-      - name: Create repository dispatch event
+      - name: Set env for payload
+
+      - name: Create repository dispatch event to Hub
         uses: peter-evans/repository-dispatch@v1
         with:
           token: ${{ secrets.MT_TOKEN }}
           repository: MaritimeMC/hub
+          event-type: core-bump
+          client-payload: '{"fragment": "bug", "core-version": "${{ env.VER }}"}'
+
+      - name: Create repository dispatch event to BlockParty
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.MT_TOKEN }}
+          repository: MaritimeMC/block-party
           event-type: core-bump
           client-payload: '{"fragment": "bug", "core-version": "${{ env.VER }}"}'
