@@ -16,8 +16,6 @@ jobs:
           version=$(echo ${{ github.event.release.tag_name }} | cut -c 2-)
           echo "VER=$version" >> $GITHUB_ENV
 
-      - name: Set env for payload
-
       - name: Create repository dispatch event to Hub
         uses: peter-evans/repository-dispatch@v1
         with:
