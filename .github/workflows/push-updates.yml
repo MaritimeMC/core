@@ -22,4 +22,4 @@ jobs:
           token: ${{ secrets.MT_TOKEN }}
           repository: MaritimeMC/hub
           event-type: core-bump
-          client-payload: '{"fragment": "minor", "core-version": "${{ env.VER }}"}'
+          client-payload: '{"fragment": "bug", "core-version": "${{ env.VER }}"}'
