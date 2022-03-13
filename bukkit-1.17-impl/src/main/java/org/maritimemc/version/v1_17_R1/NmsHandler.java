@@ -1,4 +1,4 @@
-package org.maritimemc.version.v1_17_R2;
+package org.maritimemc.version.v1_17_R1;
 
 import lombok.SneakyThrows;
 import net.md_5.bungee.api.ChatMessageType;
