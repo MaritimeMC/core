@@ -1,4 +1,4 @@
-package org.maritimemc.version.v1_17_R1;
+package org.maritimemc.version.v1_18_R2;
 
 import org.bukkit.Material;
 import org.maritimemc.abstraction.IMaterialMapper;

@@ -7,7 +7,7 @@ allprojects {
     apply plugin: 'java'
 
     group 'org.maritimemc'
-    version '1.0.12'
+    version '1.0.13'
 
     repositories {
         mavenCentral()
@@ -53,6 +53,7 @@ dependencies {
     compileOnly project(':nms-abstraction')
     compileOnly project(':bukkit-1.8-impl')
     compileOnly project(':bukkit-1.17-impl')
+    compileOnly project(':bukkit-1.18-impl')
 
     compileOnly 'org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT'
 
